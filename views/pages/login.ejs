@@ -18,47 +18,32 @@
             <%#- include ./partials/messages %>
             <!--! Didn't work  -->
             
-            <!--! flash Success Messages -->
-            <% if(false){ %>  <!--make next lines comment. turn it to true to uncomment-->
-              <% if(success_msg != '' ) { %>
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                  <strong>Successful</strong> <%= success_msg %> 
+            <!-- Show login error messages -->
+            <% if(errors != 'There is NO error') { %>
+              <% errors.forEach(function(error){ %>
+                  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                  <strong>Error</strong> <%= error.msg %>
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                      <span aria-hidden="true">&times;</span>
                   </button>
-                </div>
-              <% } %>
-            <% } %> 
-
-            
-
+                  </div>
+              <% }); %>
+          <% } %>
 
             <form action="/users/login" method="POST">
               <div class="form-group">
                 <label for="email">Email</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  class="form-control"
-                  placeholder="Enter Email"
-                />
+                <input type="email" id="email" name="email" class="form-control" placeholder="Enter Email"
+                value="<%= typeof email != 'undefined' ? email : '' %>"/>
+                <!-- keep email if there were any error -->
               </div>
               <div class="form-group">
                 <label for="password">Password</label>
-                <input
-                  type="password"
-                  id="password"
-                  name="password"
-                  class="form-control"
-                  placeholder="Enter Password"
-                />
+                <input type="password" id="password" name="password" class="form-control" placeholder="Enter Password"/>
               </div>
               <button type="submit" class="btn btn-primary btn-block">Login</button>
             </form>
-            <p class="lead mt-4">
-              No Account? <a href="/users/register">Register</a>
-            </p>
+            <p class="lead mt-4"> No Account? <a href="/users/register">Register</a> </p>
           </div>
         </div>
       </div>

@@ -7,7 +7,8 @@ const User = require("../models/User");
 
 //GET login page
 router.get("/login", (req, res) => {
-  res.render("pages/login");
+  console.log(req.session.user)
+  res.render("pages/login", { errors: "There is NO error" });
 });
 
 //GET Register page
@@ -70,16 +71,16 @@ router.post("/register", (req, res) => {
     // console.log("password2: ", password2);
     // console.log("mobile number: ", mobileNumber);
     // console.log("gender: ", sex);
-    res.render("pages/register", { errors });
-    // res.render("/pages/register", {
-    //   errors,
-    //   firstName,
-    //   // lastName,
-    //   // password,
-    //   // password2,
-    //   // mobileNumber,
-    //   // email
-    // })
+    // res.render("pages/register", { errors });
+    res.render("pages/register", {
+      errors,
+      firstName,
+      lastName,
+      password,
+      password2,
+      mobileNumber,
+      email
+    });
   } else {
     //Validation Passed
 
@@ -97,7 +98,7 @@ router.post("/register", (req, res) => {
           if (user) {
             //Email Exist
             errors.push({ msg: "Email already exist" });
-            res.render("pages/register", { errors });
+            res.render("pages/register", { errors, firstName, lastName, password, password2, mobileNumber, email });
           } else {
             const NEW_USER = new User({
               // In ES5 we said name: name
@@ -114,11 +115,13 @@ router.post("/register", (req, res) => {
             //* We don't want to save passwords as plain text. so we don't save it like below
             // NEW_USER.save((err, user) => {
             //   if (err) return res.status(500).send('Something went wrong when saving user');
-            //   return res.send(`User ${name} created Successfully. \n Email: ${email}`);
+            //   return res.send(`User ${firstName} created Successfully. \n Email: ${email}`);
             // });
 
+            console.log("test");
+
             //! Hash Password
-            bcrypt.getSalt(10, (err, salt) => {
+            bcrypt.genSalt(10, (err, salt) => {
               bcrypt.hash(NEW_USER.password, salt, (err, hashed) => {
                 if (err) throw err;
                 // set password to hashed
@@ -128,12 +131,12 @@ router.post("/register", (req, res) => {
                 NEW_USER.save()
                   //redirect to login page
                   .then((user) => {
-                    //! Flash message
+                    //TODO: Flash message
                     res.redirect("/users/login");
                   })
                   .catch((err) => {
                     console.log(err);
-                    //! Flash message
+                    //TODO: Flash message
                     res.redirect("/users/register");
                   });
               });
@@ -144,5 +147,39 @@ router.post("/register", (req, res) => {
     });
   }
 });
+
+router.post("/login", (req, res) => {
+
+  //! pull variables out of req.body
+  const {email, password} = req.body;
+
+  let errors = [];
+
+  //check required fields
+  if (!email) errors.push({msg: "Please enter your email"});
+  if (!password) errors.push({msg: "Please enter your password"});
+
+  if(errors.length > 0) {
+    res.render("pages/login", {errors, email});  
+  } else {
+    //find user
+    User.findOne({email: email})
+    .then(theUser => {
+      if(!theUser) errors.push({msg: "Email does not exist!"});
+      else {
+        //match password
+        bcrypt.compare(password, theUser.password, (err, isMatch) => {
+          if(err) throw err;
+          if(isMatch) {
+            //set session
+            req.session.user = theUser;
+            res.render("pages/dashboard", {theUser});
+          }
+        });
+      }
+    })
+    .catch(err => console.log(err));
+  }
+})
 
 module.exports = router;

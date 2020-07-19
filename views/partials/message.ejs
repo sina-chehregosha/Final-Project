@@ -1,4 +1,4 @@
-<% if( errors != 'There is NO error') { %>
+<% if(errors != 'There is NO error') { %>
     <% errors.forEach(function(error){ %>
         <div class="alert alert-warning alert-dismissible fade show" role="alert">
         <strong>Error</strong> <%= error.msg %>
@@ -7,4 +7,5 @@
         </button>
         </div>
     <% }); %>
-<% }; %>
+<% } %>
+
