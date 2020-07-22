@@ -1,24 +1,36 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
-
+const dashboardRouter = require('./dashboard');
 //User Model
 const User = require("../models/User");
 
+//Check login middleware
+const checkSession = (req, res, next) => {
+  if(req.session.user) return res.redirect('/users/dashboard');
+  next();
+};
+
+//Check NOT login
+const notLogin = (req, res, next) => {
+  if(!req.session.user) return res.redirect('/users/login');
+  next();
+};
+
 //GET login page
-router.get("/login", (req, res) => {
-  console.log(req.session.user)
+router.get("/login", checkSession , (req, res) => {
+  // console.log(req.session.user);
   res.render("pages/login", { errors: "There is NO error" });
 });
 
 //GET Register page
-router.get("/register", (req, res) => {
+router.get("/register", checkSession , (req, res) => {
   res.render("pages/register", { errors: "There is NO error" });
 });
 
 //Register Handle
 router.post("/register", (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   //!pull variables out of req.body
   const {
     firstName,
@@ -148,6 +160,7 @@ router.post("/register", (req, res) => {
   }
 });
 
+// Login Handle
 router.post("/login", (req, res) => {
 
   //! pull variables out of req.body
@@ -173,13 +186,18 @@ router.post("/login", (req, res) => {
           if(isMatch) {
             //set session
             req.session.user = theUser;
-            res.render("pages/dashboard", {theUser});
+
+            res.redirect('/users/dashboard');
+            // res.render("pages/dashboard", {theUser});
           }
         });
       }
     })
     .catch(err => console.log(err));
   }
-})
+});
+
+router.use('/dashboard', notLogin, dashboardRouter);
+
 
 module.exports = router;
