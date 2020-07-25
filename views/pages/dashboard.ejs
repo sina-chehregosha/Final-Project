@@ -1,18 +1,360 @@
+<!--! This file is for copy the layout to every pages and won't use directly  -->
+
 <!DOCTYPE html>
 <html lang="en">
 
-<!-- https://bootswatch.com/4/litera/bootstrap.css -->
+<!-- https://bootswatch.com/4/superhero/bootstrap.css -->
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://bootswatch.com/4/superhero/bootstrap.css"> <!-- Using Bootswatch theme "Litera" -->
+    <link rel="stylesheet" href="https://bootswatch.com/4/lux/bootstrap.css"> <!-- Using Bootswatch theme "Lux" -->
     <script src="https://kit.fontawesome.com/9792daf399.js" crossorigin="anonymous"></script>
     <title>Final Project</title>
 </head>
 
-<body>
-    <h1><%= USER.firstName %>'s Dashboard</h1>
+<body id="Home" style="overflow-x: hidden; position: absolute;">
+    <!-- navbar -->
+    <nav id="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand" href="#Home">Dashboard</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        <div class="collapse navbar-collapse " id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                <a class="nav-link" href="#" data-toggle="modal" data-target="#editInfoModal">Edit Information<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="#" data-toggle="modal" data-target="#contactAdminModal">Contact Admin</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+        
+    </nav> <!-- /navbar -->
+
+    
+
+
+    <!-- User info -->
+    <div class="container-fluid pt-5" style="margin-top: 100px;">
+        <div class="row">
+            <div class="col-4 px-5">
+                <img src="/images/sample_img.png" alt="profilePicture" class="img-thumbnail img-fluid">
+                <button type="button" class="btn btn-link d-block mx-auto text-capitalize">Edit</button>
+            </div>
+            <div class="col-4">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item list-group-item-success">User Info:</li>
+                    <li class="list-group-item text-capitalize">First Name: <%= USER.firstName %> </li>
+                    <li class="list-group-item text-capitalize">Last Name: <%= USER.lastName %></li>
+                    <li class="list-group-item">Email: <%= USER.email %></li>
+                    <li class="list-group-item">Mobile Number: <%= USER.mobileNumber %></li>
+                  </ul>
+            </div>
+            <div class="col-4">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item list-group-item-warning">Articles Informations</li>
+                    <li class="list-group-item">Number of Articles:</li>
+                    <li class="list-group-item">Liked Articles</li>
+                    <li class="list-group-item">Likes</li>
+                  </ul>
+            </div>
+        </div>
+    </div> <!-- /User info -->
+
+    <hr class="my-5">
+
+    <!-- Add Article -->
+    <h1 class="text-center my-4" >Add Article</h1>
+    <div class="d-flex">
+      <button type="button" class="btn btn-lg btn-outline-primary flex-fill mx-3" data-toggle="modal" data-target="#uploadArticleModal">Upload Article</button>
+      <button type="button" class="btn btn-lg btn-outline-warning flex-fill mx-3" data-toggle="modal" data-target="#addArticleModal">Write Article</button>
+    </div> <!-- /Add Article -->
+    
+
+    <hr class="my-5">
+
+    <!-- Articles -->
+    <div class="row">
+      <div class="col-2"></div>
+      <h1 class="text-center my-3  col-8">Articles</h1>
+
+      <div class="dropdown col-2">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Sort Articles
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <form action="" method="POST">
+            <button type="submit" class="dropdown-item" value="sortAZ">A-Z</button>
+            <button type="submit" class="dropdown-item" value="sortDate">Date</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    
+
+    <ul class="list-group list-group-flush" style="height: 200px;">
+        <li class="list-group-item my-2 d-flex">
+          <div class="col-1 d-inline-block articleImg"></div>
+          <div class="col d-inline-block">
+            <div class="d-flex justify-content-between">
+              <h5 class="mb-1">Article Title 1</h5>
+              <small>Article Date: YYYY/MM/DD</small>
+            </div>
+            <div class="ml-3" style="text-align: justify; height: 140px; overflow-y: auto;">
+              <span class="ml-3">Article Summary: Lorem ipsum, dolor sit amet consectetur adipisicing elit. Hic, cum quas maiores asperiores placeat necessitatibus velit eum nulla reiciendis odio! Optio ullam fuga debitis et fugit sed expedita unde nulla? Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minima voluptas in doloremque! Magni sit sapiente est omnis voluptas quis ea adipisci minima, blanditiis corrupti molestias assumenda quibusdam, odit aliquid consequatur? Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet soluta beatae eaque in hic mollitia temporibus voluptatem qui! Fuga, labore incidunt? Possimus ex nihil vitae iure amet sed neque dolorem?
+              Minus nulla laudantium, nihil cum amet recusandae deleniti voluptate harum eum, mollitia sint accusamus consequuntur facere vero, ratione possimus natus eius dicta officiis adipisci numquam et? Dicta suscipit rerum libero?
+              Adipisci recusandae, maiores blanditiis dolorum id voluptatum fugiat ipsam expedita, architecto repellendus eius exercitationem illum omnis amet saepe a, deserunt similique. Velit, ea iste impedit porro corporis magni. Temporibus, est.
+              Ratione voluptatum iure nesciunt minima eveniet dolorum expedita atque voluptatibus hic, tempore officia veniam quibusdam modi vero, magnam natus, temporibus consequuntur magni. Iure totam eligendi impedit ullam, sint consequuntur cupiditate.
+              Molestias repellendus enim laudantium aut quos illum est possimus sapiente, earum alias explicabo eligendi minus vero aliquam amet repudiandae animi reprehenderit. Libero aut dolorem hic numquam ullam perspiciatis possimus animi.
+              Tenetur eos alias corporis nam beatae aspernatur tempora, omnis accusantium cupiditate voluptates aliquam? Aspernatur odit quam tempora ducimus. Consequatur dignissimos amet, atque reiciendis laborum sed itaque necessitatibus corrupti fugiat commodi.
+              Aut dolor hic sint voluptates beatae pariatur error voluptate delectus autem ullam, velit tempora architecto ipsum! Earum in facilis similique! Veritatis earum cumque error consequatur ut recusandae, dolorum nam quo.
+              Rem, cupiditate. Excepturi tempore voluptate quaerat quis hic! Inventore, officiis eum animi quisquam saepe ratione harum quidem. Unde similique debitis corporis iure repellat nemo quo quod? Exercitationem impedit quis officiis?
+              Amet ratione delectus quam temporibus illo, repudiandae, enim non soluta nisi fugit iste? Architecto, repellendus! Impedit blanditiis doloribus quaerat, quidem nihil pariatur alias deserunt quos quas enim doloremque libero consectetur.
+              Natus omnis reiciendis expedita distinctio quos, dolore ex inventore blanditiis quidem eius nisi deleniti, ipsa culpa tempora, illo eveniet molestias. Accusantium natus vero repudiandae corrupti iure asperiores perspiciatis eos inventore.  </span>
+            </div>
+          </div>
+        </li>
+
+        <li class="list-group-item my-2 d-flex">
+          <div class="col-1 d-inline-block articleImg"></div>
+          <div class="col d-inline-block">
+            <div class="d-flex justify-content-between">
+              <h5 class="mb-1">Article Title 2</h5>
+              <small>Article Date: YYYY/MM/DD</small>
+            </div>
+            <div class="ml-3" style="text-align: justify; height: 140px; overflow-y: auto;">
+              <span class="ml-3">Article Summary: Lorem ipsum, dolor sit amet consectetur adipisicing elit. Hic, cum quas maiores asperiores placeat necessitatibus velit eum nulla reiciendis odio! Optio ullam fuga debitis et fugit sed expedita unde nulla? Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minima voluptas in doloremque! Magni sit sapiente est omnis voluptas quis ea adipisci minima, blanditiis corrupti molestias assumenda quibusdam, odit aliquid consequatur? Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet soluta beatae eaque in hic mollitia temporibus voluptatem qui! Fuga, labore incidunt? Possimus ex nihil vitae iure amet sed neque dolorem?
+              Minus nulla laudantium, nihil cum amet recusandae deleniti voluptate harum eum, mollitia sint accusamus consequuntur facere vero, ratione possimus natus eius dicta officiis adipisci numquam et? Dicta suscipit rerum libero?
+              Adipisci recusandae, maiores blanditiis dolorum id voluptatum fugiat ipsam expedita, architecto repellendus eius exercitationem illum omnis amet saepe a, deserunt similique. Velit, ea iste impedit porro corporis magni. Temporibus, est.
+              Ratione voluptatum iure nesciunt minima eveniet dolorum expedita atque voluptatibus hic, tempore officia veniam quibusdam modi vero, magnam natus, temporibus consequuntur magni. Iure totam eligendi impedit ullam, sint consequuntur cupiditate.
+              Molestias repellendus enim laudantium aut quos illum est possimus sapiente, earum alias explicabo eligendi minus vero aliquam amet repudiandae animi reprehenderit. Libero aut dolorem hic numquam ullam perspiciatis possimus animi.
+              Tenetur eos alias corporis nam beatae aspernatur tempora, omnis accusantium cupiditate voluptates aliquam? Aspernatur odit quam tempora ducimus. Consequatur dignissimos amet, atque reiciendis laborum sed itaque necessitatibus corrupti fugiat commodi.
+              Aut dolor hic sint voluptates beatae pariatur error voluptate delectus autem ullam, velit tempora architecto ipsum! Earum in facilis similique! Veritatis earum cumque error consequatur ut recusandae, dolorum nam quo.
+              Rem, cupiditate. Excepturi tempore voluptate quaerat quis hic! Inventore, officiis eum animi quisquam saepe ratione harum quidem. Unde similique debitis corporis iure repellat nemo quo quod? Exercitationem impedit quis officiis?
+              Amet ratione delectus quam temporibus illo, repudiandae, enim non soluta nisi fugit iste? Architecto, repellendus! Impedit blanditiis doloribus quaerat, quidem nihil pariatur alias deserunt quos quas enim doloremque libero consectetur.
+              Natus omnis reiciendis expedita distinctio quos, dolore ex inventore blanditiis quidem eius nisi deleniti, ipsa culpa tempora, illo eveniet molestias. Accusantium natus vero repudiandae corrupti iure asperiores perspiciatis eos inventore.  </span>
+            </div>
+          </div>
+        </li>
+    </ul>
+    <!-- /Articles -->
+
+
+
+    <!-- =============================
+            Edit Information Modal 
+         ============================= -->
+        <div class="modal fade" id="editInfoModal" tabindex="-1" role="dialog" aria-labelledby="editInfoModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header bg-info">
+                  <h5 class="modal-title  text-light" id="exampleModalLabel">Edit Information</h5>
+                  <button type="button" class="close  text-light" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <form action="" method="">
+                        <div class="form-group">
+                            <label for="userFirstName">First Name</label>
+                            <input type="text" class="form-control" id="userFirstName" value="USER.firstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="userLastName">Last Name</label>
+                            <input type="text" class="form-control" id="userLastName" value="USER.lastName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="userEmail">Email</label>
+                            <input type="email" class="form-control" id="userEmail" value="USER.email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="userMobileNumber">Mobile Number</label>
+                            <input type="tel" class="form-control" id="userMobileNumber" value="USER.mobileNumber" required>
+                        </div>
+                    </form>
+                    <button type="button" class="btn btn-block btn-warning" data-dismiss="modal" data-toggle="modal" data-target="#editPasswordModal">Change Password</button>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+              </div>
+            </div>
+        </div>
+
+
+
+    <!-- =================================
+                Contact Admin Modal 
+        ================================== -->
+        <div class="modal fade" id="contactAdminModal" tabindex="-1" role="dialog" aria-labelledby="contactAdminModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Contact Admin</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form action="" method="">
+                    <div class="form-group">
+                        <label for="contactFormTitle">Title</label>
+                        <input type="text" class="form-control" id="contactFormTitle" required>
+                      </div>
+                      <div class="form-group">
+                        <label for="ContactFormMessage">Message:</label>
+                        <textarea class="form-control" id="ContactFormMessage" rows="3"></textarea>
+                      </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary">Send</button>
+                </div>
+              </div>
+            </div>
+        </div>
+
+    <!-- ==========================
+                Logout Modal
+         ==========================-->
+        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header bg-danger">
+                    <h5 class="modal-title text-light" id="exampleModalLabel">Logout</h5>
+                    <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger">Logout</button>
+                </div>
+                </div>
+            </div>
+        </div>
+
+
+    <!-- =========================
+            Edit Password Modal 
+         ========================= -->
+        <div class="modal fade" id="editPasswordModal" tabindex="-1" role="dialog" aria-labelledby="editPasswordModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header bg-warning">
+                  <h5 class="modal-title" id="exampleModalLabel">Change Password</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <form action="" method="">
+                        <div class="form-group">
+                            <label for="lastPassword">Last Password</label>
+                            <input type="password" class="form-control" id="lastPassword">
+                        </div>
+                        <div class="form-group">
+                            <label for="newPassword1">New Password</label>
+                            <input type="password" class="form-control" id="newPassword1">
+                        </div>
+                        <div class="form-group">
+                            <label for="newPassword2">Confirm New Password</label>
+                            <input type="password" class="form-control" id="newPassword2">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary">Save</button>
+                </div>
+              </div>
+            </div>
+        </div>
+
+    
+    <!-- =========================
+            Write Article Modal 
+         ========================= -->
+        <div class="modal fade" id="addArticleModal" tabindex="-1" role="dialog" aria-labelledby="contactAdminModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Write Article</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form action="" method="">
+                  <div class="form-group">
+                      <label for="contactFormTitle">Title</label>
+                      <input type="text" class="form-control" id="contactFormTitle" required>
+                  </div>
+                  <div class="form-group">
+                      <label for="ContactFormMessage">Text:</label>
+                      <textarea class="form-control" id="ContactFormMessage" rows="10" required></textarea>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Send</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+    <!-- =========================
+            Upload Article Modal 
+         ========================= -->
+         <div class="modal fade" id="uploadArticleModal" tabindex="-1" role="dialog" aria-labelledby="uploadArticleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header bg-dark">
+                <h5 class="modal-title text-light" id="exampleModalLabel">Upload Article</h5>
+                <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <h5>Upload Article:</h5>
+                <a href="#" role="button" class="btn btn-primary btn-block popover-test" title="Popover title" data-content="Popover body content is set in this attribute.">Upload</a>
+                <hr>
+                <div class="form-group">
+                  <h5 for="contactFormTitle">Article's Title</h5>
+                  <input type="text" class="form-control" id="contactFormTitle" required>
+                </div>
+                <h5>Add Article's Summary</h5>
+                <form action="" method="">
+                    <div class="form-group">
+                      <textarea class="form-control" id="ContactFormMessage" rows="7" required></textarea>
+                    </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Add Atricle</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
     
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
@@ -20,4 +362,19 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 </body>
 
+<style>
+  .articleImg {
+    height: 169px;
+    width: 119px;
+    background: url('/images/sample_img.png') no-repeat center; 
+    background-size: contain;
+    background-color: rgba(226, 226, 226, 0.486);
+  }
+
+  #footer {
+    width: 100%;
+    height: 70px;
+    background-color: aqua;
+  }
+</style>
 </html>
