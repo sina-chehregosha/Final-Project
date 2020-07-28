@@ -74,16 +74,6 @@ router.post("/register", (req, res) => {
   //TODO: Check mobile number with regex
 
   if (errors.length > 0) {
-    // console.log("errors: ", errors);
-    // errors.forEach(error => console.log(error.msg));
-    // console.log("first name: ",firstName);
-    // console.log("last name: ", lastName);
-    // console.log("email: ", email);
-    // console.log("password: ", password);
-    // console.log("password2: ", password2);
-    // console.log("mobile number: ", mobileNumber);
-    // console.log("gender: ", sex);
-    // res.render("pages/register", { errors });
     res.render("pages/register", {
       errors,
       firstName,
@@ -178,17 +168,24 @@ router.post("/login", (req, res) => {
     //find user
     User.findOne({email: email})
     .then(theUser => {
-      if(!theUser) errors.push({msg: "Email does not exist!"});
-      else {
+      if(!theUser) {
+          errors.push({msg: "Email does not exist!"});
+          res.render("pages/login", {errors, email});  
+      } else {
         //match password
         bcrypt.compare(password, theUser.password, (err, isMatch) => {
           if(err) throw err;
           if(isMatch) {
-            //set session
+            
+            //!set session
             req.session.user = theUser;
 
             res.redirect('/users/dashboard');
             // res.render("pages/dashboard", {theUser});
+          } else {
+            // password not match
+            errors.push({msg: "Incorrect Password"})
+            res.render("pages/login", {errors, email});  
           }
         });
       }

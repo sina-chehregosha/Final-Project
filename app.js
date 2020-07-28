@@ -16,7 +16,8 @@ const Config = require('./config/config');
 mongoose.connect(Config.MongoAddr, {
   useNewUrlParser: true,
     useUnifiedTopology: true,
-    useCreateIndex: true //solve mongoose deprecation error
+    useCreateIndex: true, //solve mongoose deprecation error
+    useFindAndModify: false //solve mongoose findOne deprecation
 })
 .then(() => console.log("MongoDB Connected..."))
 .catch(err => console.log(err));
