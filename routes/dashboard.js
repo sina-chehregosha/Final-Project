@@ -24,7 +24,7 @@ const User = require("../models/User");
 const { findByIdAndUpdate, find } = require("../models/User");
 
 //Article Model
-const Article = require('../models/Article')
+const Article = require('../models/Article');
 
 router.get('/', async (req, res) => {
 
@@ -89,17 +89,39 @@ router.post('/editInfo', async (req, res) => {
             req.session.user = NEW_USER;
             USER = req.session.user;
             errors.push({color: "alert-success", msg: "Your information updated successfully"});
-            res.render("pages/dashboard", {errors, USER});
+            let ARTICLE;
+            try {
+                ARTICLE = await Article.find({author: USER._id});
+                res.render('pages/dashboard', {USER, errors, ARTICLE});
+            } catch (err) {
+                errors.push({color: "alert-danger", msg: "Something went wrong when loading user's articles"});
+                ARTICLE = [];
+                res.render('pages/dashboard', {USER, errors, ARTICLE});
+            }
         } else {
-            res.render("pages/dashboard", {errors, USER});
+            let ARTICLE;
+            try {
+                ARTICLE = await Article.find({author: USER._id});
+                res.render('pages/dashboard', {USER, errors, ARTICLE});
+            } catch (err) {
+                errors.push({color: "alert-danger", msg: "Something went wrong when loading user's articles"});
+                ARTICLE = [];
+                res.render('pages/dashboard', {USER, errors, ARTICLE});
+            }
         }
 
     } catch (err) {
         errors.push({color: "alert-danger", msg: "something went wrong"});
-        return  res.render("pages/dashboard", {errors, USER}); 
+        let ARTICLE;
+        try {
+            ARTICLE = await Article.find({author: USER._id});
+            return res.render('pages/dashboard', {USER, errors, ARTICLE});
+        } catch (err) {
+            errors.push({color: "alert-danger", msg: "Something went wrong when loading user's articles"});
+            ARTICLE = [];
+            return res.render('pages/dashboard', {USER, errors, ARTICLE});
+        }
     }
-    
-    res.render('pages/dashboard', {errors, USER});
 });
 
 
@@ -109,7 +131,7 @@ router.get('/editPass', (req, res) => {
 });
 
 // Change Password Handler
-router.post('/editPass', (req, res) => {
+router.post('/editPass', async (req, res) => {
     //! pull variables out of req.body
     const {lastPassword, newPassword1, newPassword2} = req.body;
 
@@ -120,7 +142,15 @@ router.post('/editPass', (req, res) => {
     // check empty fields
     if (!lastPassword || !newPassword1 || !newPassword2) {
         errors.push({ color: 'alert-warning' , msg: "Fill all fields please" });
-        res.render('pages/dashboard', {errors, USER});
+        let ARTICLE;
+        try {
+            ARTICLE = await Article.find({author: USER._id});
+            res.render('pages/dashboard', {USER, errors, ARTICLE});
+        } catch (err) {
+            errors.push({color: "alert-danger", msg: "Something went wrong when loading user's articles"});
+            ARTICLE = [];
+            res.render('pages/dashboard', {USER, errors, ARTICLE});
+        }
     } else {
         //check password length
         if (newPassword1.length < 8) {
@@ -131,7 +161,7 @@ router.post('/editPass', (req, res) => {
             errors.push({ color: 'alert-warning' , msg: "New Passwords didn't match" });
         } else {
             // compare last password with user's password
-            bcrypt.compare(lastPassword, USER.password, (err, isMatch) => {
+            bcrypt.compare(lastPassword, USER.password, async (err, isMatch) => {
                 if (err) throw err;
 
                 // last password matched to user's password
@@ -141,7 +171,7 @@ router.post('/editPass', (req, res) => {
                         bcrypt.hash(newPassword1, salt, (err, hashed) => {
                             if (err) throw err;
                             // find user and update the password
-                            User.findByIdAndUpdate(USER._id, {password: hashed}, (err, newUSer) => {
+                            User.findByIdAndUpdate(USER._id, {password: hashed}, async (err, newUSer) => {
                                 if (err) throw err;
                                 if (newUSer) {
                                     //update session
@@ -149,8 +179,15 @@ router.post('/editPass', (req, res) => {
                                     USER = req.session.user;
                                     errors.push({color: 'alert-success', msg: "Your password updated successfully"});
 
-                                    res.render('pages/dashboard', {errors, USER});
-                                };
+                                    let ARTICLE;
+                                    try {
+                                        ARTICLE = await Article.find({author: USER._id});
+                                        res.render('pages/dashboard', {USER, errors, ARTICLE});
+                                    } catch (err) {
+                                        errors.push({color: "alert-danger", msg: "Something went wrong when loading user's articles"});
+                                        ARTICLE = [];
+                                        res.render('pages/dashboard', {USER, errors, ARTICLE});
+                                    }                                };
                             });
 
                         });
@@ -158,11 +195,19 @@ router.post('/editPass', (req, res) => {
                 } else {
                     //Incorrect current password
                     errors.push({ color: 'alert-danger' , msg: "Incorrect current password" });
+                    let ARTICLE;
+                    try {
+                        ARTICLE = await Article.find({author: USER._id});
+                        res.render('pages/dashboard', {USER, errors, ARTICLE});
+                    } catch (err) {
+                        errors.push({color: "alert-danger", msg: "Something went wrong when loading user's articles"});
+                        ARTICLE = [];
+                        res.render('pages/dashboard', {USER, errors, ARTICLE});
+                    }
                 };
             });
         };
 
-        res.render('pages/dashboard', {errors, USER});
     };
 });
 
@@ -174,12 +219,10 @@ router.get('/logout', (req, res) => {
 });
 
 router.get("/writeArticle", (req, res) => {
-    const USER = req.session.user;
-    let errors = [];
-    res.render('pages/dashboard', {USER, errors});
+    res.redirect('/users/dashboard');
 });
 
-router.post("/writeArticle", (req, res) => {
+router.post("/writeArticle", async (req, res) => {
     
     const title = req.body.articleTitle;
     const text = req.body.articleText;
@@ -195,7 +238,7 @@ router.post("/writeArticle", (req, res) => {
     const textLength = text.split(' ').length;    
 
     // get first 50 WORDS and join them with SPACE
-    const summaryGenerator = (str) => str.split(/\s+/).slice(0,50).join(" ") + " . . . ";
+    const summaryGenerator = (str) => str.split(/\s+/).slice(0,90).join(" ") + " . . . ";
 
     if (!title || !text) {
         errors.push({color: "alert-warning", msg: "Fill all article fields"});
@@ -219,14 +262,30 @@ router.post("/writeArticle", (req, res) => {
         // console.log("NEW_ARTICLE", NEW_ARTICLE)
         
         NEW_ARTICLE.save()
-        .then((article) => {
+        .then(async (article) => {
             errors.push({color: "alert-success", msg: "Article saved successfully"});
-            res.render('pages/dashboard', {USER, errors});
+            let ARTICLE;
+            try {
+                ARTICLE = await Article.find({author: USER._id});
+                res.render('pages/dashboard', {USER, errors, ARTICLE});
+            } catch (err) {
+                errors.push({color: "alert-danger", msg: "Something went wrong when loading user's articles"});
+                ARTICLE = [];
+                res.render('pages/dashboard', {USER, errors, ARTICLE});
+            } 
         })
-        .catch((err) => {
+        .catch(async (err) => {
             console.log("Save Article error: ", err);
             errors.push({color: "alert-danger", msg: "Something went wrong when saving article"});
-            res.render('pages/dashboard', {USER, errors});
+            let ARTICLE;
+            try {
+                ARTICLE = await Article.find({author: USER._id});
+                res.render('pages/dashboard', {USER, errors, ARTICLE});
+            } catch (err) {
+                errors.push({color: "alert-danger", msg: "Something went wrong when loading user's articles"});
+                ARTICLE = [];
+                res.render('pages/dashboard', {USER, errors, ARTICLE});
+            }
         });
     };
 });
