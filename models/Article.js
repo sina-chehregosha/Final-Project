@@ -1,10 +1,12 @@
 const mongoose = require('mongoose');
+const User = require('./User');
 const Schema = mongoose.Schema;
 
 const ArticleSchema = new Schema ({
     title: {
         type: String,
         required: true,
+        maxlength: 50,
         trim: true
     },
     summary: {
@@ -20,8 +22,13 @@ const ArticleSchema = new Schema ({
     views: {
         type: Number,
         default: 0
+    },
+    author: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     }
 }) 
 
 
-module.exports = mongoose.model('User', UserSchema);
+module.exports = mongoose.model('Article', ArticleSchema);

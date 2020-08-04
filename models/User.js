@@ -35,6 +35,10 @@ const UserSchema = new Schema ({
        unique: [true, "This phone number has been registered earlier!"],
        required: true,
        trim: true
+   },
+   avatar: {
+       type: String,
+       default: '/avatar/noProfilePicture.png'
    }
 });
 

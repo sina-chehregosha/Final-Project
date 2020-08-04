@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://bootswatch.com/4/lux/bootstrap.css"> <!-- Using Bootswatch theme "Lux" -->
+    <link rel="stylesheet" href="https://bootswatch.com/4/yeti/bootstrap.css"> <!-- Using Bootswatch theme "Lux" -->
     <script src="https://kit.fontawesome.com/9792daf399.js" crossorigin="anonymous"></script>
     <title>Final Project</title>
 </head>
@@ -41,33 +41,48 @@
     </nav> <!-- /navbar -->
 
     
-
+    
 
     <!-- User info -->
-    <div class="container-fluid pt-5" style="margin-top: 100px;">
-        <div class="row">
-            <div class="col-4 px-5">
-                <img src="/images/sample_img.png" alt="profilePicture" class="img-thumbnail img-fluid">
-                <button type="button" class="btn btn-link d-block mx-auto text-capitalize">Edit</button>
-            </div>
-            <div class="col-4">
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item list-group-item-success">User Info:</li>
-                    <li class="list-group-item text-capitalize">First Name: <%= USER.firstName %> </li>
-                    <li class="list-group-item text-capitalize">Last Name: <%= USER.lastName %></li>
-                    <li class="list-group-item">Email: <%= USER.email %></li>
-                    <li class="list-group-item">Mobile Number: <%= USER.mobileNumber %></li>
-                  </ul>
-            </div>
-            <div class="col-4">
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item list-group-item-warning">Articles Informations</li>
-                    <li class="list-group-item">Number of Articles:</li>
-                    <li class="list-group-item">Liked Articles</li>
-                    <li class="list-group-item">Likes</li>
-                  </ul>
-            </div>
-        </div>
+    <div class="container-fluid pt-5 mt-5">
+
+      <!-- error message -->
+      <% if (errors != []) { %> 
+        <% errors.forEach((error) => { %>
+          <div class="alert <%= error.color %>  alert-dismissible fade show col-lg-10 col-xl-8 mx-auto" role="alert">
+              <%= error.msg %>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+        <% }) %> 
+      <% } %> <!-- /error message -->
+
+      <div class="row">
+          <div class="col-sm-12 col-md-4 px-5">
+              <div class="mx-auto"><img src="/avatar/noProfilePicture.png" alt="profilePicture" class="img-thumbnail img-fluid"></div>
+              <form action="/dashboard/editAvatar" method="POST">
+                <input type="file" class="btn btn-link d-block mx-auto text-capitalize">Edit</input>
+              </form>
+          </div>
+          <div class="col-sm-12 col-md-4">
+              <ul class="list-group list-group-flush">
+                  <li class="list-group-item list-group-item-success">User Info:</li>
+                  <li class="list-group-item text-capitalize">First Name: <%= USER.firstName %> </li>
+                  <li class="list-group-item text-capitalize">Last Name: <%= USER.lastName %></li>
+                  <li class="list-group-item">Email: <%= USER.email %></li>
+                  <li class="list-group-item">Mobile Number: <%= USER.mobileNumber %></li>
+                </ul>
+          </div>
+          <div class="col-sm-12 col-md-4">
+              <ul class="list-group list-group-flush">
+                  <li class="list-group-item list-group-item-warning">Articles Informations</li>
+                  <li class="list-group-item">Number of Articles:</li>
+                  <li class="list-group-item">Liked Articles</li>
+                  <li class="list-group-item">Likes</li>
+                </ul>
+          </div>
+      </div>
     </div> <!-- /User info -->
 
     <hr class="my-5">
@@ -84,10 +99,10 @@
 
     <!-- Articles -->
     <div class="row">
-      <div class="col-2"></div>
-      <h1 class="text-center my-3  col-8">Articles</h1>
+      <div class="col-3"></div>
+      <h1 class="text-center my-3  col-6">Articles</h1>
 
-      <div class="dropdown col-2">
+      <div class="dropdown col-3 my-3">
         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Sort Articles
         </button>
@@ -107,7 +122,12 @@
           <div class="col d-inline-block">
             <div class="d-flex justify-content-between">
               <h5 class="mb-1">Article Title 1</h5>
-              <small>Article Date: YYYY/MM/DD</small>
+              <div>
+                  <small>Article Date: YYYY/MM/DD</small>
+                  <i class="fa fa-trash-o text-danger mx-1" aria-hidden="true" title="Delete Article" style="font-size: 20px; cursor: pointer;"></i>
+                  <i class="fa fa-pencil-square-o text-warning mx-1" aria-hidden="true" title="Edit Article" style="font-size: 20px; cursor: pointer;"></i>
+                  <i class="fa fa-envelope-open-o text-info" aria-hidden="true" title="Open Article" style="font-size: 20px; cursor: pointer;"></i>
+              </div>
             </div>
             <div class="ml-3" style="text-align: justify; height: 140px; overflow-y: auto;">
               <span class="ml-3">Article Summary: Lorem ipsum, dolor sit amet consectetur adipisicing elit. Hic, cum quas maiores asperiores placeat necessitatibus velit eum nulla reiciendis odio! Optio ullam fuga debitis et fugit sed expedita unde nulla? Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minima voluptas in doloremque! Magni sit sapiente est omnis voluptas quis ea adipisci minima, blanditiis corrupti molestias assumenda quibusdam, odit aliquid consequatur? Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet soluta beatae eaque in hic mollitia temporibus voluptatem qui! Fuga, labore incidunt? Possimus ex nihil vitae iure amet sed neque dolorem?
@@ -129,7 +149,12 @@
           <div class="col d-inline-block">
             <div class="d-flex justify-content-between">
               <h5 class="mb-1">Article Title 2</h5>
-              <small>Article Date: YYYY/MM/DD</small>
+              <div>
+                  <small>Article Date: YYYY/MM/DD</small>
+                  <i class="fa fa-trash-o text-danger mx-1" aria-hidden="true" title="Delete Article" style="font-size: 20px; cursor: pointer;"></i>
+                  <i class="fa fa-pencil-square-o text-warning mx-1" aria-hidden="true" title="Edit Article" style="font-size: 20px; cursor: pointer;"></i>
+                  <i class="fa fa-envelope-open-o text-info" aria-hidden="true" title="Open Article" style="font-size: 20px; cursor: pointer;"></i>
+              </div>
             </div>
             <div class="ml-3" style="text-align: justify; height: 140px; overflow-y: auto;">
               <span class="ml-3">Article Summary: Lorem ipsum, dolor sit amet consectetur adipisicing elit. Hic, cum quas maiores asperiores placeat necessitatibus velit eum nulla reiciendis odio! Optio ullam fuga debitis et fugit sed expedita unde nulla? Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minima voluptas in doloremque! Magni sit sapiente est omnis voluptas quis ea adipisci minima, blanditiis corrupti molestias assumenda quibusdam, odit aliquid consequatur? Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet soluta beatae eaque in hic mollitia temporibus voluptatem qui! Fuga, labore incidunt? Possimus ex nihil vitae iure amet sed neque dolorem?
@@ -163,29 +188,29 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                    <form action="" method="">
+                    <form action="/users/dashboard/editInfo" method="POST">
                         <div class="form-group">
-                            <label for="userFirstName">First Name</label>
-                            <input type="text" class="form-control" id="userFirstName" value="USER.firstName" required>
+                            <label for="firstName">First Name</label>
+                            <input type="text" class="form-control" id="firstName" name="firstName" value="<%= USER.firstName %>" required>
                         </div>
                         <div class="form-group">
                             <label for="userLastName">Last Name</label>
-                            <input type="text" class="form-control" id="userLastName" value="USER.lastName" required>
+                            <input type="text" class="form-control" id="lastName" name="lastName" value="<%= USER.lastName %>" required>
                         </div>
                         <div class="form-group">
                             <label for="userEmail">Email</label>
-                            <input type="email" class="form-control" id="userEmail" value="USER.email" required>
+                            <input type="email" class="form-control" id="email" name="email" value="<%= USER.email %>" required>
                         </div>
                         <div class="form-group">
-                            <label for="userMobileNumber">Mobile Number</label>
-                            <input type="tel" class="form-control" id="userMobileNumber" value="USER.mobileNumber" required>
+                            <label for="mobileNumber">Mobile Number</label>
+                            <input type="tel" class="form-control" id="mobileNumber" name="mobileNumber" value="<%= USER.mobileNumber %>" required>
+                        </div>
+                        <button type="button" class="btn btn-block btn-warning" data-dismiss="modal" data-toggle="modal" data-target="#editPasswordModal">Change Password</button>
+                        <div class="modal-footer p-0 pt-3">
+                          <button type="button" class="btn btn-secondary m-0 mr-1" data-dismiss="modal">Close</button>
+                          <button type="submit" class="btn btn-primary m-0 ml-1">Save changes</button>
                         </div>
                     </form>
-                    <button type="button" class="btn btn-block btn-warning" data-dismiss="modal" data-toggle="modal" data-target="#editPasswordModal">Change Password</button>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary">Save changes</button>
                 </div>
               </div>
             </div>
@@ -209,17 +234,17 @@
                   <form action="" method="">
                     <div class="form-group">
                         <label for="contactFormTitle">Title</label>
-                        <input type="text" class="form-control" id="contactFormTitle" required>
+                        <input type="text" class="form-control" id="contactFormTitle" name="contactFormTitle" required>
                       </div>
                       <div class="form-group">
                         <label for="ContactFormMessage">Message:</label>
-                        <textarea class="form-control" id="ContactFormMessage" rows="3"></textarea>
+                        <textarea class="form-control" id="ContactFormMessage" name="ContactFormMessage" rows="3"></textarea>
                       </div>
                   </form>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary">Send</button>
+                  <button type="submit" class="btn btn-primary">Send</button>
                 </div>
               </div>
             </div>
@@ -242,7 +267,9 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-danger">Logout</button>
+                    <form action="/users/dashboard/logout">
+                      <button type="submit" class="btn btn-danger">Logout</button>
+                    </form>
                 </div>
                 </div>
             </div>
@@ -262,24 +289,24 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                    <form action="" method="">
+                    <form action="/users/dashboard/editPass" method="POST">
                         <div class="form-group">
                             <label for="lastPassword">Last Password</label>
-                            <input type="password" class="form-control" id="lastPassword">
+                            <input type="password" class="form-control" id="lastPassword" name="lastPassword" placeholder="Enter your current password">
                         </div>
                         <div class="form-group">
                             <label for="newPassword1">New Password</label>
-                            <input type="password" class="form-control" id="newPassword1">
+                            <input type="password" class="form-control" id="newPassword1" name="newPassword1" placeholder="password must be longer than 8 characters">
                         </div>
                         <div class="form-group">
                             <label for="newPassword2">Confirm New Password</label>
-                            <input type="password" class="form-control" id="newPassword2">
+                            <input type="password" class="form-control" id="newPassword2" name="newPassword2">
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          <button type="submit" class="btn btn-primary">Save</button>
                         </div>
                     </form>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary">Save</button>
                 </div>
               </div>
             </div>
@@ -299,20 +326,20 @@
                 </button>
               </div>
               <div class="modal-body">
-                <form action="" method="">
+                <form action="/users/dashboard/writeArticle" method="POST">
                   <div class="form-group">
-                      <label for="contactFormTitle">Title</label>
-                      <input type="text" class="form-control" id="contactFormTitle" required>
+                      <label for="articleTitle">Title</label>
+                      <input type="text" class="form-control" id="articleTitle" name="articleTitle" autocomplete="off" required>
                   </div>
                   <div class="form-group">
-                      <label for="ContactFormMessage">Text:</label>
-                      <textarea class="form-control" id="ContactFormMessage" rows="10" required></textarea>
+                      <label for="atricleText">Text:</label>
+                      <textarea class="form-control" id="atricleText" name="articleText" rows="10" placeholder="At least 100 words" required></textarea>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Send</button>
                   </div>
                 </form>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Send</button>
               </div>
             </div>
           </div>
@@ -335,20 +362,20 @@
                 <h5>Upload Article:</h5>
                 <a href="#" role="button" class="btn btn-primary btn-block popover-test" title="Popover title" data-content="Popover body content is set in this attribute.">Upload</a>
                 <hr>
-                <div class="form-group">
-                  <h5 for="contactFormTitle">Article's Title</h5>
-                  <input type="text" class="form-control" id="contactFormTitle" required>
-                </div>
-                <h5>Add Article's Summary</h5>
                 <form action="" method="">
                     <div class="form-group">
-                      <textarea class="form-control" id="ContactFormMessage" rows="7" required></textarea>
+                      <h5 for="articleTitle">Article's Title</h5>
+                      <input type="text" class="form-control" id="articleTitle" name="articleTitle" required>
+                    </div>
+                    <h5 for="articleSummary">Add Article's Summary</h5>
+                    <div class="form-group">
+                      <textarea class="form-control" id="articleSummary" name="articleSummary" rows="7" required></textarea>
                     </div>
                 </form>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Add Atricle</button>
+                <button type="submit" class="btn btn-primary">Add Atricle</button>
               </div>
             </div>
           </div>
@@ -369,12 +396,6 @@
     background: url('/images/sample_img.png') no-repeat center; 
     background-size: contain;
     background-color: rgba(226, 226, 226, 0.486);
-  }
-
-  #footer {
-    width: 100%;
-    height: 70px;
-    background-color: aqua;
   }
 </style>
 </html>
