@@ -5,6 +5,10 @@ const dashboardRouter = require('./dashboard');
 //User Model
 const User = require("../models/User");
 
+//Article Model
+const Article = require("../models/Article");
+
+
 //Check login middleware
 const checkSession = (req, res, next) => {
   if(req.session.user) return res.redirect('/users/dashboard');
@@ -173,14 +177,24 @@ router.post("/login", (req, res) => {
           res.render("pages/login", {errors, email});  
       } else {
         //match password
-        bcrypt.compare(password, theUser.password, (err, isMatch) => {
+        bcrypt.compare(password, theUser.password, async (err, isMatch) => {
           if(err) throw err;
           if(isMatch) {
             
-            //!set session
+            //! set user session
             req.session.user = theUser;
 
-            res.redirect('/users/dashboard');
+            let ARTICLE;
+            try {
+                //! set article session
+                req.session.article = await Article.find({author: theUser._id});
+
+                res.redirect('/users/dashboard');
+            } catch (err) {
+                console.log(err);
+                res.redirect('/users/dashboard');
+            }
+ 
             // res.render("pages/dashboard", {theUser});
           } else {
             // password not match

@@ -26,19 +26,13 @@ const { findByIdAndUpdate, find } = require("../models/User");
 //Article Model
 const Article = require('../models/Article');
 
-router.get('/', async (req, res) => {
+router.get('/', (req, res) => {
 
     const USER = req.session.user;
+    const ARTICLE = req.session.article;
     let errors = [];
-    let ARTICLE;
-    try {
-        ARTICLE = await Article.find({author: USER._id});
-        res.render('pages/dashboard', {USER, errors, ARTICLE});
-    } catch (err) {
-        errors.push({color: "alert-danger", msg: "Something went wrong when loading user's articles"});
-        ARTICLE = [];
-        res.render('pages/dashboard', {USER, errors, ARTICLE});
-    }
+
+    res.render('pages/dashboard', {USER, errors, ARTICLE});
     
 });
 
@@ -53,6 +47,7 @@ router.post('/editInfo', async (req, res) => {
     const { firstName, lastName, email, mobileNumber } = req.body;
     
     let USER = req.session.user;
+    const ARTICLE = req.session.article;
 
     let errors = [];
 
@@ -89,38 +84,14 @@ router.post('/editInfo', async (req, res) => {
             req.session.user = NEW_USER;
             USER = req.session.user;
             errors.push({color: "alert-success", msg: "Your information updated successfully"});
-            let ARTICLE;
-            try {
-                ARTICLE = await Article.find({author: USER._id});
-                res.render('pages/dashboard', {USER, errors, ARTICLE});
-            } catch (err) {
-                errors.push({color: "alert-danger", msg: "Something went wrong when loading user's articles"});
-                ARTICLE = [];
-                res.render('pages/dashboard', {USER, errors, ARTICLE});
-            }
+            res.render('pages/dashboard', {USER, errors, ARTICLE});
         } else {
-            let ARTICLE;
-            try {
-                ARTICLE = await Article.find({author: USER._id});
-                res.render('pages/dashboard', {USER, errors, ARTICLE});
-            } catch (err) {
-                errors.push({color: "alert-danger", msg: "Something went wrong when loading user's articles"});
-                ARTICLE = [];
-                res.render('pages/dashboard', {USER, errors, ARTICLE});
-            }
+            res.render('pages/dashboard', {USER, errors, ARTICLE});
         }
 
     } catch (err) {
         errors.push({color: "alert-danger", msg: "something went wrong"});
-        let ARTICLE;
-        try {
-            ARTICLE = await Article.find({author: USER._id});
-            return res.render('pages/dashboard', {USER, errors, ARTICLE});
-        } catch (err) {
-            errors.push({color: "alert-danger", msg: "Something went wrong when loading user's articles"});
-            ARTICLE = [];
-            return res.render('pages/dashboard', {USER, errors, ARTICLE});
-        }
+        res.render('pages/dashboard', {USER, errors, ARTICLE});
     }
 });
 
@@ -131,26 +102,20 @@ router.get('/editPass', (req, res) => {
 });
 
 // Change Password Handler
-router.post('/editPass', async (req, res) => {
+router.post('/editPass', (req, res) => {
     //! pull variables out of req.body
     const {lastPassword, newPassword1, newPassword2} = req.body;
 
     let errors = [];
 
     let USER = req.session.user;
+    const ARTICLE = req.session.article;
+
 
     // check empty fields
     if (!lastPassword || !newPassword1 || !newPassword2) {
         errors.push({ color: 'alert-warning' , msg: "Fill all fields please" });
-        let ARTICLE;
-        try {
-            ARTICLE = await Article.find({author: USER._id});
-            res.render('pages/dashboard', {USER, errors, ARTICLE});
-        } catch (err) {
-            errors.push({color: "alert-danger", msg: "Something went wrong when loading user's articles"});
-            ARTICLE = [];
-            res.render('pages/dashboard', {USER, errors, ARTICLE});
-        }
+        res.render('pages/dashboard', {USER, errors, ARTICLE});
     } else {
         //check password length
         if (newPassword1.length < 8) {
@@ -179,15 +144,8 @@ router.post('/editPass', async (req, res) => {
                                     USER = req.session.user;
                                     errors.push({color: 'alert-success', msg: "Your password updated successfully"});
 
-                                    let ARTICLE;
-                                    try {
-                                        ARTICLE = await Article.find({author: USER._id});
-                                        res.render('pages/dashboard', {USER, errors, ARTICLE});
-                                    } catch (err) {
-                                        errors.push({color: "alert-danger", msg: "Something went wrong when loading user's articles"});
-                                        ARTICLE = [];
-                                        res.render('pages/dashboard', {USER, errors, ARTICLE});
-                                    }                                };
+                                    res.render('pages/dashboard', {USER, errors, ARTICLE});
+                                };
                             });
 
                         });
@@ -195,15 +153,7 @@ router.post('/editPass', async (req, res) => {
                 } else {
                     //Incorrect current password
                     errors.push({ color: 'alert-danger' , msg: "Incorrect current password" });
-                    let ARTICLE;
-                    try {
-                        ARTICLE = await Article.find({author: USER._id});
-                        res.render('pages/dashboard', {USER, errors, ARTICLE});
-                    } catch (err) {
-                        errors.push({color: "alert-danger", msg: "Something went wrong when loading user's articles"});
-                        ARTICLE = [];
-                        res.render('pages/dashboard', {USER, errors, ARTICLE});
-                    }
+                    res.render('pages/dashboard', {USER, errors, ARTICLE});
                 };
             });
         };
@@ -227,11 +177,8 @@ router.post("/writeArticle", async (req, res) => {
     const title = req.body.articleTitle;
     const text = req.body.articleText;
     
-    console.log("title", title)
-    console.log("text", text)
-
-    
     let USER = req.session.user;
+    let ARTICLE = req.session.article;
 
     let errors = [];
 
@@ -248,7 +195,7 @@ router.post("/writeArticle", async (req, res) => {
     }
 
     if (errors.length > 0) {
-        res.render('pages/dashboard', {USER, errors});
+        res.render('pages/dashboard', {USER, errors, ARTICLE});
     } else {
         let  summary = summaryGenerator(text);
         console.log("summary", summary)
@@ -264,7 +211,6 @@ router.post("/writeArticle", async (req, res) => {
         NEW_ARTICLE.save()
         .then(async (article) => {
             errors.push({color: "alert-success", msg: "Article saved successfully"});
-            let ARTICLE;
             try {
                 ARTICLE = await Article.find({author: USER._id});
                 res.render('pages/dashboard', {USER, errors, ARTICLE});
@@ -277,7 +223,6 @@ router.post("/writeArticle", async (req, res) => {
         .catch(async (err) => {
             console.log("Save Article error: ", err);
             errors.push({color: "alert-danger", msg: "Something went wrong when saving article"});
-            let ARTICLE;
             try {
                 ARTICLE = await Article.find({author: USER._id});
                 res.render('pages/dashboard', {USER, errors, ARTICLE});
