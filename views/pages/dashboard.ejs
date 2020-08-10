@@ -201,21 +201,22 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                  <form action="" method="">
+                  <form action="/users/dashboard/contactAdmin" method="POST">
                     <div class="form-group">
                         <label for="contactFormTitle">Title</label>
                         <input type="text" class="form-control" id="contactFormTitle" name="contactFormTitle" required>
                       </div>
                       <div class="form-group">
                         <label for="ContactFormMessage">Message:</label>
-                        <textarea class="form-control" id="ContactFormMessage" name="ContactFormMessage" rows="3"></textarea>
+                        <textarea class="form-control" id="ContactFormMessage" name="contactFormMessage" rows="3"></textarea>
                       </div>
-                  </form>
+                  
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                   <button type="submit" class="btn btn-primary">Send</button>
                 </div>
+                  </form>
               </div>
             </div>
         </div>
@@ -298,7 +299,7 @@
               <div class="modal-body">
                 <form action="/users/dashboard/writeArticle" method="POST">
                   <div class="form-group">
-                      <label for="articleTitle">Title</label>
+                      <label for="articleTitle">Title</label>auto
                       <input type="text" class="form-control" id="articleTitle" name="articleTitle" autocomplete="off" required>
                   </div>
                   <div class="form-group">
@@ -330,7 +331,7 @@
               </div>
               <div class="modal-body">
                 <h5>Upload Article:</h5>
-                <a href="#" role="button" class="btn btn-primary btn-block popover-test" title="Popover title" data-content="Popover body content is set in this attribute.">Upload</a>
+                <a href="#" role="button" class="btn btn-primary btn-block popover-test" title="Popover title" autocomplete="off" data-content="Popover body content is set in this attribute.">Upload</a>
                 <hr>
                 <form action="" method="">
                     <div class="form-group">

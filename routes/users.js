@@ -240,7 +240,6 @@ router.post('/forgetPassword', (req,res) => {
           text:`RESET PASSWORD! User: ${user._doc.email}`,
           author: admin._doc._id
         });
-        console.log(NEW_ADMIN_MSG);
         NEW_ADMIN_MSG.save((err, msg) => {
           if (err) return res.render('pages/forgetPassword', {error: "Error while sending message to admin", color: "alert-danger"});
           res.render('pages/forgetPassword', {error: "Message successfully sent to admin", color: "alert-success"});

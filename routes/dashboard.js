@@ -235,7 +235,7 @@ router.post("/writeArticle", async (req, res) => {
     };
 });
 
-
+// FIXME: Multer does not work
 router.post("/editAvatar", (req, res) => {
 
     //if user send empty request
@@ -273,5 +273,41 @@ router.post("/editAvatar", (req, res) => {
     })
 });
 
+router.get("/contactAdmin", (req, res) => {
+    res.redirect('/users/dashboard');
+});
+
+router.post("/contactAdmin", (req, res) => {
+    const {contactFormTitle, contactFormMessage} = req.body;
+
+    let USER = req.session.user;
+    let ARTICLE = req.session.article;
+
+    let errors = [];
+    User.findOne({role: 'admin'}, (err, admin) => {
+        if (err) {
+            errors.push({color: "alert-danger", msg: "Error while finding admin user"});
+            return res.render('pages/dashboard', {USER, errors, ARTICLE});
+        }
+        else {
+            //* use Article schema as admin message
+            const NEW_ADMIN_MSG = new Article({
+                title: contactFormTitle ,
+                summary: USER.email,
+                text: contactFormMessage,
+                author: admin._doc._id
+            });
+            NEW_ADMIN_MSG.save((err, msg) => {
+                if (err) {
+                    errors.push({color: "alert-danger", msg: "Error while sending message to admin"});
+                    return res.render('pages/dashboard', {USER, errors, ARTICLE});    
+                }
+                errors.push({color: "alert-success", msg: "Message sent to admin successfully"});
+                return res.render('pages/dashboard', {USER, errors, ARTICLE});    
+            });
+        };
+    });
+    
+});
 
 module.exports = router;
