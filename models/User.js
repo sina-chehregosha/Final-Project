@@ -38,7 +38,12 @@ const UserSchema = new Schema ({
    },
    avatar: {
        type: String,
-       default: '/avatar/noProfilePicture.png'
+       default: '/images/noProfilePicture.png'
+   },
+   role: {
+       type: String,
+       enum: ['blogger', 'admin'],
+       default: 'blogger'
    }
 });
 

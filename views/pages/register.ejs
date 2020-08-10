@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<!-- TODO: Dark Theme -->
 <!-- https://bootswatch.com/4/flatly/bootstrap.css -->
 
 <head>
@@ -20,7 +21,7 @@
             </h1>
     
             <%#- include('partials/message.ejs', {errors: errors}) %> 
-            <!--! Didn't work! -->
+            <!-- FIXME: Didn't work! -->
 
             <!-- Show registering error messages -->
             <% if(errors != 'There is NO error') { %>
@@ -43,8 +44,8 @@
                 <label for="firstName"><b>First Name</b></label>
                 <input type="name" id="firstName" name="firstName" class="form-control" placeholder="Enter first name"
                   value="<%= typeof firstName != 'undefined' ? firstName : '' %>" />
-                <!--! if there is a name in input and the validation doesn't pass we don't want the form to completely clear -->
-                <!--! we want to keep whatever is in there -->
+                <!--* if there is a name in input and the validation doesn't pass we don't want the form to completely clear -->
+                <!--* we want to keep whatever is in there -->
               </div>
               <div class="form-group">
                 <label for="lastName"><b>Last Name</b></label>

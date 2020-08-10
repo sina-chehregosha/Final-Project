@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- https://bootswatch.com/4/superhero/bootstrap.css -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://bootswatch.com/4/yeti/bootstrap.css"> <!-- Using Bootswatch theme "Lux" -->
+    <script src="https://kit.fontawesome.com/9792daf399.js" crossorigin="anonymous"></script>
+    <title>Final Project</title>
+</head>
+
+<body id="Home" style="overflow-x: hidden; position: absolute;">
+    <!-- navbar -->
+    <nav id="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand" href="#Home">ADMIN Dashboard</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        <div class="collapse navbar-collapse " id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                <a class="nav-link" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+        
+    </nav> <!-- /navbar -->
+    
+    
+
+    <!-- User info -->
+    <div class="container-fluid pt-5" style="margin-top: 100px;">
+        <div class="row">
+            <div class="col-4 px-5">
+                <img src=<%= ADMIN.avatar %> alt="profilePicture" class="img-thumbnail img-fluid">
+                <button type="button" class="btn btn-link d-block mx-auto text-capitalize">Edit</button>
+            </div>
+            <div class="col-4">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item list-group-item-success">User Info:</li>
+                    <li class="list-group-item">First Name: <%= ADMIN.firstName %> </li>
+                    <li class="list-group-item">Last Name: <%= ADMIN.lastName %></li>
+                    <li class="list-group-item">Email: <%= ADMIN.email %></li>
+                    <li class="list-group-item">Mobile Number: <%= ADMIN.mobileNumber %></li>
+                  </ul>
+            </div>
+            <div class="col-4">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item list-group-item-warning">Website Informations</li>
+                    <li class="list-group-item">Number of Bloggers: <%= Bloggers.length %> </li>
+                    <li class="list-group-item">Number of Articles: </li>
+                  </ul>
+            </div>
+        </div>
+    </div> <!-- /User info -->
+
+    <hr class="my-5">
+
+    <!-- Bloggers' Messages -->
+    <div class="row">
+      <div class="col-2"></div>
+      <h1 class="text-center my-3 col-8">Bloggers' Messages </h1>
+    </div>
+    
+
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item my-2 d-flex">
+          <div class="col d-inline-block">
+            <div class="d-flex justify-content-between">
+              <h5 class="mb-1">Article Title 1</h5>
+              <small>Article Date: YYYY/MM/DD</small>
+            </div>
+            <div class="ml-3" style="text-align: justify; height: 80px; overflow-y: auto;">
+              <span class="ml-3">Article Summary: Lorem ipsum, dolor sit amet consectetur adipisicing elit. Hic, cum quas maiores asperiores placeat necessitatibus velit eum nulla reiciendis odio! Optio ullam fuga debitis et fugit sed expedita unde nulla? Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minima voluptas in doloremque! Magni sit sapiente est omnis voluptas quis ea adipisci minima, blanditiis corrupti molestias assumenda quibusdam, odit aliquid consequatur? Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet soluta beatae eaque in hic mollitia temporibus voluptatem qui! Fuga, labore incidunt? Possimus ex nihil vitae iure amet sed neque dolorem?
+              Minus nulla laudantium, nihil cum amet recusandae deleniti voluptate harum eum, mollitia sint accusamus consequuntur facere vero, ratione possimus natus eius dicta officiis adipisci numquam et? Dicta suscipit rerum libero?
+              Adipisci recusandae, maiores blanditiis dolorum id voluptatum fugiat ipsam expedita, architecto repellendus eius exercitationem illum omnis amet saepe a, deserunt similique. Velit, ea iste impedit porro corporis magni. Temporibus, est.
+              Ratione voluptatum iure nesciunt minima eveniet dolorum expedita atque voluptatibus hic, tempore officia veniam quibusdam modi vero, magnam natus, temporibus consequuntur magni. Iure totam eligendi impedit ullam, sint consequuntur cupiditate.
+              Molestias repellendus enim laudantium aut quos illum est possimus sapiente, earum alias explicabo eligendi minus vero aliquam amet repudiandae animi reprehenderit. Libero aut dolorem hic numquam ullam perspiciatis possimus animi.
+              Tenetur eos alias corporis nam beatae aspernatur tempora, omnis accusantium cupiditate voluptates aliquam? Aspernatur odit quam tempora ducimus. Consequatur dignissimos amet, atque reiciendis laborum sed itaque necessitatibus corrupti fugiat commodi.
+              Aut dolor hic sint voluptates beatae pariatur error voluptate delectus autem ullam, velit tempora architecto ipsum! Earum in facilis similique! Veritatis earum cumque error consequatur ut recusandae, dolorum nam quo.
+              Rem, cupiditate. Excepturi tempore voluptate quaerat quis hic! Inventore, officiis eum animi quisquam saepe ratione harum quidem. Unde similique debitis corporis iure repellat nemo quo quod? Exercitationem impedit quis officiis?
+              Amet ratione delectus quam temporibus illo, repudiandae, enim non soluta nisi fugit iste? Architecto, repellendus! Impedit blanditiis doloribus quaerat, quidem nihil pariatur alias deserunt quos quas enim doloremque libero consectetur.
+              Natus omnis reiciendis expedita distinctio quos, dolore ex inventore blanditiis quidem eius nisi deleniti, ipsa culpa tempora, illo eveniet molestias. Accusantium natus vero repudiandae corrupti iure asperiores perspiciatis eos inventore.  </span>
+            </div>
+          </div>
+        </li>
+
+        <li class="list-group-item my-2 d-flex">
+          <div class="col d-inline-block">
+            <div class="d-flex justify-content-between">
+              <h5 class="mb-1">Article Title 2</h5>
+              <small>Article Date: YYYY/MM/DD</small>
+            </div>
+            <div class="ml-3" style="text-align: justify; height: 80px; overflow-y: auto;">
+              <span class="ml-3">Article Summary: Lorem ipsum, dolor sit amet consectetur adipisicing elit. Hic, cum quas maiores asperiores placeat necessitatibus velit eum nulla reiciendis odio! Optio ullam fuga debitis et fugit sed expedita unde nulla? Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minima voluptas in doloremque! Magni sit sapiente est omnis voluptas quis ea adipisci minima, blanditiis corrupti molestias assumenda quibusdam, odit aliquid consequatur? Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet soluta beatae eaque in hic mollitia temporibus voluptatem qui! Fuga, labore incidunt? Possimus ex nihil vitae iure amet sed neque dolorem?
+              Minus nulla laudantium, nihil cum amet recusandae deleniti voluptate harum eum, mollitia sint accusamus consequuntur facere vero, ratione possimus natus eius dicta officiis adipisci numquam et? Dicta suscipit rerum libero?
+              Adipisci recusandae, maiores blanditiis dolorum id voluptatum fugiat ipsam expedita, architecto repellendus eius exercitationem illum omnis amet saepe a, deserunt similique. Velit, ea iste impedit porro corporis magni. Temporibus, est.
+              Ratione voluptatum iure nesciunt minima eveniet dolorum expedita atque voluptatibus hic, tempore officia veniam quibusdam modi vero, magnam natus, temporibus consequuntur magni. Iure totam eligendi impedit ullam, sint consequuntur cupiditate.
+              Molestias repellendus enim laudantium aut quos illum est possimus sapiente, earum alias explicabo eligendi minus vero aliquam amet repudiandae animi reprehenderit. Libero aut dolorem hic numquam ullam perspiciatis possimus animi.
+              Tenetur eos alias corporis nam beatae aspernatur tempora, omnis accusantium cupiditate voluptates aliquam? Aspernatur odit quam tempora ducimus. Consequatur dignissimos amet, atque reiciendis laborum sed itaque necessitatibus corrupti fugiat commodi.
+              Aut dolor hic sint voluptates beatae pariatur error voluptate delectus autem ullam, velit tempora architecto ipsum! Earum in facilis similique! Veritatis earum cumque error consequatur ut recusandae, dolorum nam quo.
+              Rem, cupiditate. Excepturi tempore voluptate quaerat quis hic! Inventore, officiis eum animi quisquam saepe ratione harum quidem. Unde similique debitis corporis iure repellat nemo quo quod? Exercitationem impedit quis officiis?
+              Amet ratione delectus quam temporibus illo, repudiandae, enim non soluta nisi fugit iste? Architecto, repellendus! Impedit blanditiis doloribus quaerat, quidem nihil pariatur alias deserunt quos quas enim doloremque libero consectetur.
+              Natus omnis reiciendis expedita distinctio quos, dolore ex inventore blanditiis quidem eius nisi deleniti, ipsa culpa tempora, illo eveniet molestias. Accusantium natus vero repudiandae corrupti iure asperiores perspiciatis eos inventore.  </span>
+            </div>
+          </div>
+        </li>
+    </ul> <!-- /Bloggers' Messages -->
+
+    <hr class="my-5">
+
+    <!-- Bloggers -->
+    <div class="row">
+      <div class="col-2"></div>
+      <h1 class="text-center my-3 col-8">Bloggers List </h1>
+    </div>
+
+    <ul class="list-group list-group-flush">
+      <% Bloggers.forEach((blogger) => { %>
+        <li class="list-group-item">
+          <div class="d-flex justify-content-between">
+            <h5><%= blogger._doc.email %> </h5>
+            <div>
+              <i class="fas fa-user-times text-danger fa-2x p-1" title="Delete" data-toggle="modal" data-target="#deleteUserModal"></i>
+              <i class="far fa-newspaper text-info fa-2x p-1" title="Articles"></i>
+              <i class="fas fa-key text-primary fa-2x p-1" title="Password = mobileNumber" data-toggle="modal" data-target="#recoverPassModal"></i>
+            </div>
+          </div>
+          <small> <%= blogger._doc.firstName %> <%= blogger._doc.lastName %> </small>
+          <% Articles.forEach((article) => { %>
+            <% if(article._doc.author.toString() == blogger._doc._id.toString()) { %> 
+              <small>  |  <%= article._doc.title %> </small>
+            <% } %> 
+          <% }) %> 
+        </li> 
+      <% }) %> 
+    </ul><!-- /Bloggers -->
+
+    
+    <!-- ==========================
+                Logout Modal
+         ==========================-->
+        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header bg-danger">
+                    <h5 class="modal-title text-light" id="exampleModalLabel">Logout</h5>
+                    <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger">Logout</button>
+                </div>
+                </div>
+            </div>
+        </div>
+      
+    
+    <!-- ============================
+              Delete User Modal 
+         ============================ -->
+        <div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="deleteUserModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+              <div class="modal-content">
+              <div class="modal-header bg-warning">
+                  <h5 class="modal-title text-light" id="exampleModalLabel">Delete User?</h5>
+                  <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <div class="modal-body">
+                  Are you sure?
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-danger">Delete</button>
+              </div>
+              </div>
+          </div>
+        </div>
+
+
+    <!-- ============================
+              User Articles Modal 
+         ============================ -->
+
+
+
+
+
+
+    <!-- ================================
+            Reover User Password Modal 
+         ================================ -->
+        <div class="modal fade" id="recoverPassModal" tabindex="-1" role="dialog" aria-labelledby="recoverPassModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+              <div class="modal-content">
+              <div class="modal-header bg-primary">
+                  <h5 class="modal-title text-light" id="exampleModalLabel">Recover User's Password?</h5>
+                  <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <div class="modal-body">
+                  Are you sure?
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary">Recover</button>
+              </div>
+              </div>
+          </div>
+        </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+</body>
+  <style>
+    i {
+      cursor: pointer;
+    }
+  </style>
+</html>

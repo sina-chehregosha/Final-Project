@@ -1,7 +1,7 @@
-<!--! This file is for copy the layout to every pages and won't use directly  -->
-
 <!DOCTYPE html>
 <html lang="en">
+
+<!-- TODO: Dark Theme -->
 
 <!-- https://bootswatch.com/4/superhero/bootstrap.css -->
 
@@ -60,10 +60,12 @@
 
       <div class="row">
           <div class="col-sm-12 col-md-4 px-5">
-              <div class="mx-auto"><img src="/avatar/noProfilePicture.png" alt="profilePicture" class="img-thumbnail img-fluid"></div>
-              <form action="/dashboard/editAvatar" method="POST" enctype="multipart/form-data">
-                <input type="file" class="btn btn-link d-block mx-auto text-capitalize">Edit</input>
-              </form>
+              <div class="mx-auto"><img src=<%= USER.avatar %> alt="profilePicture" class="img-thumbnail img-fluid"></div>
+                <form action="/users/dashboard/editAvatar" method="POST" enctype="multipart/form-data">
+                  <input type="file" class="btn btn-link text-capitalize"></input>
+                  <button type="submit" class="btn btn-sm btn-outline-dark mx-2">Change Avatar</button>
+                </form>
+              
           </div>
           <div class="col-sm-12 col-md-4">
               <ul class="list-group list-group-flush">

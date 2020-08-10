@@ -12,6 +12,9 @@ const usersRouter = require('./routes/users');
 const app = express();
 const Config = require('./config/config');
 
+// FIXME: Initialization Not working
+// require('./tools/initialization')(); 
+
 //Connect to Database
 mongoose.connect(Config.MongoAddr, {
   useNewUrlParser: true,
@@ -42,6 +45,15 @@ app.use(session({
     // secure: true,
   }
 }));
+
+// clear user_sid if there where no session for it in server side
+app.use(function(req, res, next) {
+	if (req.cookies.user_sid && !req.session.user) {
+		res.clearCookie("user_sid");
+	};
+
+	next();
+});
 
 
 //Routes

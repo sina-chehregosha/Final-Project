@@ -236,4 +236,42 @@ router.post("/writeArticle", async (req, res) => {
 });
 
 
+router.post("/editAvatar", (req, res) => {
+
+    //if user send empty request
+    // if(req.body.length == undefined) return res.redirect('/users/dashboard');
+
+    let errors = [];
+
+    if(req.session.user.avatar !== '/images/noProfilePicture.png') {
+        try {
+            fs.unlinkSync(`../public/${req.session.user.avatar}`)
+        } catch(err) {
+            errors.push({color: 'alert-danger', msg: 'Something went wrong on deleting last avatar'});
+        }
+    }
+    const upload = uploadAvatar.single('avatar');
+    upload(req, res, (err) => {
+        if (err) errors.push({color: 'alert-danger', msg: 'Something went wrong on uploading avatar'});
+        console.log(req.file);
+        User.findByIdAndUpdate(req.session.user._id, {avatar: req.file.filename}, {new: true},
+            (err, updatedUser) => {
+                if (err) errors.push({color: 'alert-danger', msg: 'Something went wrong on updating avatar'});
+                else if (updatedUser) {
+                    errors.push({color: 'alert-success', msg: 'Avatar updated successfully'});
+                    //update session
+                    req.session.user = updatedUser;
+                } 
+
+                const USER = req.session.user;
+                const ARTICLE = req.session.article;
+
+
+                res.render('pages/dashboard', {errors, USER, ARTICLE} );
+            }
+        )
+    })
+});
+
+
 module.exports = router;

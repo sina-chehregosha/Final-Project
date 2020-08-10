@@ -12,7 +12,6 @@ const ArticleSchema = new Schema ({
     summary: {
         type: String,
         required: true,
-        minlength: [50, 'Summary is too short']
     },
     text: {type: String},
     date: {

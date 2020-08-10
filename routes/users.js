@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const dashboardRouter = require('./dashboard');
+const adminDashboardRouter = require('./adminDashboard');
 //User Model
 const User = require("../models/User");
 
@@ -11,7 +12,10 @@ const Article = require("../models/Article");
 
 //Check login middleware
 const checkSession = (req, res, next) => {
-  if(req.session.user) return res.redirect('/users/dashboard');
+  if(req.session.user){
+    if(req.session.user.role === 'admin') return res.redirect('/users/adminDashboard');
+    else return res.redirect('/users/dashboard');
+  } 
   next();
 };
 
@@ -20,6 +24,11 @@ const notLogin = (req, res, next) => {
   if(!req.session.user) return res.redirect('/users/login');
   next();
 };
+
+const isAdmin = (req, res, next) => {
+  if(!req.session.user.role) return res.redirect('/users/dashboard');
+  next();
+}
 
 //GET login page
 router.get("/login", checkSession , (req, res) => {
@@ -35,7 +44,7 @@ router.get("/register", checkSession , (req, res) => {
 //Register Handle
 router.post("/register", (req, res) => {
   // console.log(req.body);
-  //!pull variables out of req.body
+  //* pull variables out of req.body
   const {
     firstName,
     lastName,
@@ -76,7 +85,7 @@ router.post("/register", (req, res) => {
   }
 
   //TODO: Check mobile number with regex
-
+  
   if (errors.length > 0) {
     res.render("pages/register", {
       errors,
@@ -126,7 +135,7 @@ router.post("/register", (req, res) => {
 
             console.log("test");
 
-            //! Hash Password
+            //* Hash Password
             bcrypt.genSalt(10, (err, salt) => {
               bcrypt.hash(NEW_USER.password, salt, (err, hashed) => {
                 if (err) throw err;
@@ -157,7 +166,7 @@ router.post("/register", (req, res) => {
 // Login Handle
 router.post("/login", (req, res) => {
 
-  //! pull variables out of req.body
+  //* pull variables out of req.body
   const {email, password} = req.body;
 
   let errors = [];
@@ -176,7 +185,7 @@ router.post("/login", (req, res) => {
           errors.push({msg: "Email does not exist!"});
           res.render("pages/login", {errors, email});  
       } else {
-        //match password
+        //* match password
         bcrypt.compare(password, theUser.password, async (err, isMatch) => {
           if(err) throw err;
           if(isMatch) {
@@ -184,12 +193,15 @@ router.post("/login", (req, res) => {
             //! set user session
             req.session.user = theUser;
 
-            let ARTICLE;
             try {
                 //! set article session
                 req.session.article = await Article.find({author: theUser._id});
 
-                res.redirect('/users/dashboard');
+                if(theUser.role === 'admin') {
+                  res.redirect('/users/adminDashboard');
+                } else {
+                  res.redirect('/users/dashboard');
+                }
             } catch (err) {
                 console.log(err);
                 res.redirect('/users/dashboard');
@@ -208,7 +220,42 @@ router.post("/login", (req, res) => {
   }
 });
 
+router.get('/forgetPassword', (req, res) => {
+  res.render('pages/forgetPassword');
+});
+
+router.post('/forgetPassword', (req,res) => {
+  const {email} = req.body;
+
+  User.findOne({email: email})
+  .then(user => {
+    if(!user) return res.render('pages/forgetPassword', {error: "Email does not exist", color: "alert-warning"});
+    User.findOne({role: 'admin'}, (err, admin) => {
+      if (err) return res.render('pages/forgetPassword', {error: "Error finding Admin", color: "alert-danger"});
+      else {
+        //* use Article schema as admin message
+        const NEW_ADMIN_MSG = new Article({
+          title: `RESET PASSWORD! User: ${user._doc.email}`,
+          summary: `RESET PASSWORD! User: ${user._doc.email}`,
+          text:`RESET PASSWORD! User: ${user._doc.email}`,
+          author: admin._doc._id
+        });
+        console.log(NEW_ADMIN_MSG);
+        NEW_ADMIN_MSG.save((err, msg) => {
+          if (err) return res.render('pages/forgetPassword', {error: "Error while sending message to admin", color: "alert-danger"});
+          res.render('pages/forgetPassword', {error: "Message successfully sent to admin", color: "alert-success"});
+        });
+      };
+    });
+  }).catch(err => res.render('pages/forgetPassword', {error: "Error while finding the email", color: "alert-danger"}));
+  
+});
+
+router.use('/adminDashboard', notLogin, isAdmin, adminDashboardRouter);
+
 router.use('/dashboard', notLogin, dashboardRouter);
+
+
 
 
 module.exports = router;
