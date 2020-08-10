@@ -292,8 +292,8 @@ router.post("/contactAdmin", (req, res) => {
         else {
             //* use Article schema as admin message
             const NEW_ADMIN_MSG = new Article({
-                title: contactFormTitle ,
-                summary: USER.email,
+                title: USER.email ,
+                summary: contactFormTitle , //! message title is in summery
                 text: contactFormMessage,
                 author: admin._doc._id
             });
