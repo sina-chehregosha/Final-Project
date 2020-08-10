@@ -42,6 +42,7 @@ router.get("/register", checkSession , (req, res) => {
 });
 
 //Register Handle
+// TODO: Email authentication
 router.post("/register", (req, res) => {
   // console.log(req.body);
   //* pull variables out of req.body

@@ -11,7 +11,7 @@
     <title>Final Project</title>
 </head>
 
-<body id="Home" style="overflow-x: hidden; position: absolute;">
+<body class="w-100" id="Home" style="overflow-x: hidden; position: absolute;">
     <!-- navbar -->
     <nav id="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <a class="navbar-brand" href="#Home">ADMIN Dashboard</a>
@@ -70,50 +70,27 @@
     
 
     <ul class="list-group list-group-flush">
-        <li class="list-group-item my-2 d-flex">
-          <div class="col d-inline-block">
-            <div class="d-flex justify-content-between">
-              <h5 class="mb-1">Article Title 1</h5>
-              <small>Article Date: YYYY/MM/DD</small>
-            </div>
-            <div class="ml-3" style="text-align: justify; height: 80px; overflow-y: auto;">
-              <span class="ml-3">Article Summary: Lorem ipsum, dolor sit amet consectetur adipisicing elit. Hic, cum quas maiores asperiores placeat necessitatibus velit eum nulla reiciendis odio! Optio ullam fuga debitis et fugit sed expedita unde nulla? Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minima voluptas in doloremque! Magni sit sapiente est omnis voluptas quis ea adipisci minima, blanditiis corrupti molestias assumenda quibusdam, odit aliquid consequatur? Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet soluta beatae eaque in hic mollitia temporibus voluptatem qui! Fuga, labore incidunt? Possimus ex nihil vitae iure amet sed neque dolorem?
-              Minus nulla laudantium, nihil cum amet recusandae deleniti voluptate harum eum, mollitia sint accusamus consequuntur facere vero, ratione possimus natus eius dicta officiis adipisci numquam et? Dicta suscipit rerum libero?
-              Adipisci recusandae, maiores blanditiis dolorum id voluptatum fugiat ipsam expedita, architecto repellendus eius exercitationem illum omnis amet saepe a, deserunt similique. Velit, ea iste impedit porro corporis magni. Temporibus, est.
-              Ratione voluptatum iure nesciunt minima eveniet dolorum expedita atque voluptatibus hic, tempore officia veniam quibusdam modi vero, magnam natus, temporibus consequuntur magni. Iure totam eligendi impedit ullam, sint consequuntur cupiditate.
-              Molestias repellendus enim laudantium aut quos illum est possimus sapiente, earum alias explicabo eligendi minus vero aliquam amet repudiandae animi reprehenderit. Libero aut dolorem hic numquam ullam perspiciatis possimus animi.
-              Tenetur eos alias corporis nam beatae aspernatur tempora, omnis accusantium cupiditate voluptates aliquam? Aspernatur odit quam tempora ducimus. Consequatur dignissimos amet, atque reiciendis laborum sed itaque necessitatibus corrupti fugiat commodi.
-              Aut dolor hic sint voluptates beatae pariatur error voluptate delectus autem ullam, velit tempora architecto ipsum! Earum in facilis similique! Veritatis earum cumque error consequatur ut recusandae, dolorum nam quo.
-              Rem, cupiditate. Excepturi tempore voluptate quaerat quis hic! Inventore, officiis eum animi quisquam saepe ratione harum quidem. Unde similique debitis corporis iure repellat nemo quo quod? Exercitationem impedit quis officiis?
-              Amet ratione delectus quam temporibus illo, repudiandae, enim non soluta nisi fugit iste? Architecto, repellendus! Impedit blanditiis doloribus quaerat, quidem nihil pariatur alias deserunt quos quas enim doloremque libero consectetur.
-              Natus omnis reiciendis expedita distinctio quos, dolore ex inventore blanditiis quidem eius nisi deleniti, ipsa culpa tempora, illo eveniet molestias. Accusantium natus vero repudiandae corrupti iure asperiores perspiciatis eos inventore.  </span>
-            </div>
-          </div>
-        </li>
 
+      <% Messages.forEach((msg) => { %>
         <li class="list-group-item my-2 d-flex">
           <div class="col d-inline-block">
             <div class="d-flex justify-content-between">
-              <h5 class="mb-1">Article Title 2</h5>
-              <small>Article Date: YYYY/MM/DD</small>
+              <h5 class="mb-1"> <strong><%= msg.title %></strong>  </h5>
+              
+              <small> <%= msg.date %> </small>
             </div>
-            <div class="ml-3" style="text-align: justify; height: 80px; overflow-y: auto;">
-              <span class="ml-3">Article Summary: Lorem ipsum, dolor sit amet consectetur adipisicing elit. Hic, cum quas maiores asperiores placeat necessitatibus velit eum nulla reiciendis odio! Optio ullam fuga debitis et fugit sed expedita unde nulla? Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minima voluptas in doloremque! Magni sit sapiente est omnis voluptas quis ea adipisci minima, blanditiis corrupti molestias assumenda quibusdam, odit aliquid consequatur? Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet soluta beatae eaque in hic mollitia temporibus voluptatem qui! Fuga, labore incidunt? Possimus ex nihil vitae iure amet sed neque dolorem?
-              Minus nulla laudantium, nihil cum amet recusandae deleniti voluptate harum eum, mollitia sint accusamus consequuntur facere vero, ratione possimus natus eius dicta officiis adipisci numquam et? Dicta suscipit rerum libero?
-              Adipisci recusandae, maiores blanditiis dolorum id voluptatum fugiat ipsam expedita, architecto repellendus eius exercitationem illum omnis amet saepe a, deserunt similique. Velit, ea iste impedit porro corporis magni. Temporibus, est.
-              Ratione voluptatum iure nesciunt minima eveniet dolorum expedita atque voluptatibus hic, tempore officia veniam quibusdam modi vero, magnam natus, temporibus consequuntur magni. Iure totam eligendi impedit ullam, sint consequuntur cupiditate.
-              Molestias repellendus enim laudantium aut quos illum est possimus sapiente, earum alias explicabo eligendi minus vero aliquam amet repudiandae animi reprehenderit. Libero aut dolorem hic numquam ullam perspiciatis possimus animi.
-              Tenetur eos alias corporis nam beatae aspernatur tempora, omnis accusantium cupiditate voluptates aliquam? Aspernatur odit quam tempora ducimus. Consequatur dignissimos amet, atque reiciendis laborum sed itaque necessitatibus corrupti fugiat commodi.
-              Aut dolor hic sint voluptates beatae pariatur error voluptate delectus autem ullam, velit tempora architecto ipsum! Earum in facilis similique! Veritatis earum cumque error consequatur ut recusandae, dolorum nam quo.
-              Rem, cupiditate. Excepturi tempore voluptate quaerat quis hic! Inventore, officiis eum animi quisquam saepe ratione harum quidem. Unde similique debitis corporis iure repellat nemo quo quod? Exercitationem impedit quis officiis?
-              Amet ratione delectus quam temporibus illo, repudiandae, enim non soluta nisi fugit iste? Architecto, repellendus! Impedit blanditiis doloribus quaerat, quidem nihil pariatur alias deserunt quos quas enim doloremque libero consectetur.
-              Natus omnis reiciendis expedita distinctio quos, dolore ex inventore blanditiis quidem eius nisi deleniti, ipsa culpa tempora, illo eveniet molestias. Accusantium natus vero repudiandae corrupti iure asperiores perspiciatis eos inventore.  </span>
+            <h6><%= msg.summary %> </h6>
+            <div class="ml-3" style="text-align: justify; height: 50px; overflow-y: auto;">
+              <span class="ml-3"><%= msg.text %> </span>
             </div>
           </div>
         </li>
+      <% }) %> 
+      
+
     </ul> <!-- /Bloggers' Messages -->
-
-    <hr class="my-5">
+    
+    <hr class="mt-2 mb-5">
 
     <!-- Bloggers -->
     <div class="row">
