@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- https://bootswatch.com/4/superhero/bootstrap.css -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://bootswatch.com/4/yeti/bootstrap.css"> <!-- Using Bootswatch theme "Lux" -->
+    <script src="https://kit.fontawesome.com/9792daf399.js" crossorigin="anonymous"></script>
+    <title>Final Project</title>
+</head>
+
+<body id="Home" class="px-3 pt-5 w-100" style="overflow-x: hidden; position: absolute;">
+    <!-- navbar -->
+    <nav id="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand" href="/users/adminDashboard">ADMIN Dashboard</a>
+        <h5 class="pt-2" style="cursor: pointer;">
+            <form action="/users/adminDashboard/bloggerInfo" method="POST">
+                <input type="hidden" name="bloggerId" value=<%= bloggerId %>>
+                <button class="btn btn-link text-light mr-2" type="submit"> > Blogger Info</button></h5> 
+            </form>
+        <h6 class="pt-2" style="cursor: pointer;"><a class="text-light" href="#Home"> > Article Info</a></h6>
+    </nav> <!-- /navbar -->
+
+    <h2 class="text-center mt-3">Title</h2>
+    <div class="container-fluid" style="overflow-y: auto; height: 50px;">
+       <h5> <%= ARTICLE._doc.title %> </h5>
+    </div>
+
+    <h2 class="text-center mb-2">Text</h2>
+    <div class="container-fluid" style=" text-align: justify; overflow-y : auto; height: 60vh;">
+        <h5> <%= ARTICLE._doc.text %> </h5>
+    </div>
+    <form action="/users/adminDashboard/bloggerInfo/deleteArticle" method="POST">
+        <input type="hidden" name="articleId" value=<%= ARTICLE._doc._id %> >
+        <button type="submit" class="btn btn-danger btn-block mt-3">Delete The Article</button>
+    </form>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+</body>
+</html>

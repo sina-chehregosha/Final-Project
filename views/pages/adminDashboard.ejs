@@ -110,10 +110,10 @@
               </form>
             </div>
           </div>
-          <b><span> <%= blogger._doc.firstName %> <%= blogger._doc.lastName %> </span></b>
+          <b><strong> <%= blogger._doc.firstName %> <%= blogger._doc.lastName %> </strong></b>
           <% Articles.forEach((article) => { %>
             <% if(article._doc.author.toString() == blogger._doc._id.toString()) { %> 
-              <small>  |  <%= article._doc.title %> </small>
+              <small class="text-muted">  |  <%= article._doc.title %> </small>
             <% } %> 
           <% }) %> 
         </li> 

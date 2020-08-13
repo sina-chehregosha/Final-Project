@@ -200,7 +200,7 @@ router.post("/writeArticle", async (req, res) => {
         res.render('pages/dashboard', {USER, errors, ARTICLE});
     } else {
         let  summary = summaryGenerator(text);
-        console.log("summary", summary)
+        // console.log("summary", summary)
 
         const NEW_ARTICLE = new Article ({
             title,

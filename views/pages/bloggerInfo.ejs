@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- https://bootswatch.com/4/superhero/bootstrap.css -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://bootswatch.com/4/yeti/bootstrap.css"> <!-- Using Bootswatch theme "Lux" -->
+    <script src="https://kit.fontawesome.com/9792daf399.js" crossorigin="anonymous"></script>
+    <title>Final Project</title>
+</head>
+<body id="Home" class="pt-5 w-100" style="overflow-x: hidden; position: absolute;">
+    <!-- navbar -->
+    <nav id="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand" href="/users/adminDashboard">ADMIN Dashboard</a>
+        <h5 class="pt-2" style="cursor: pointer;"><a class="text-light" href="#Home"> > Blogger Info</a></h5>
+    </nav> <!-- /navbar -->
+
+    <div class="col-sm-12 col-md-4 mt-5 mx-auto">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item list-group-item-success">User Info:</li>
+            <li class="list-group-item text-capitalize">First Name: <%= BLOGGER._doc.firstName %> </li>
+            <li class="list-group-item text-capitalize">Last Name: <%= BLOGGER._doc.lastName %></li>
+            <li class="list-group-item">Email: <%= BLOGGER._doc.email %></li>
+            <li class="list-group-item">Mobile Number: <%= BLOGGER._doc.mobileNumber %></li>
+        </ul>
+        <div class="btn-group w-100" role="group" aria-label="Basic example">
+            <button type="button" class="btn btn-warning w-75">Reset User's Password</button>
+            <button type="button" class="btn btn-secondary btn-danger w-25">Delete User</button>
+        </div>
+    </div>
+
+    <hr class="m-5">
+
+    <h1 class="text-center">Articles</h1>
+    
+    <% if(ARTICLES) { %> 
+        <ul class="list-group list-group-flush w-100 p-5">
+            <% ARTICLES.forEach((article) => { %>
+                <li class="list-group-item my-2 d-flex" style="padding: 0px;">
+                    <div class="col-1 d-inline-block articleImg"></div>
+                    <div class="col d-inline-block">
+                    <div class="d-flex justify-content-between">
+                        <h5 class="mb-1"> <%= article._doc.title %> </h5>
+                        <div class="mr-5 pr-5">
+                            <small> <%= article._doc.date %> </small>
+                        </div>
+                    </div>
+                    <div class="container-fluid d-flex ">
+                        <div class="ml-3 col-11" style=" text-align: justify; height: 100px; overflow-y: auto;">
+                            <span class="ml-3"><%= article._doc.summary %></span>
+                        </div> 
+                        <div class="m-1 p-3 col d-flex align-items-center">
+                            <form action="/users/adminDashboard/bloggerInfo/articleInfo" method="POST">
+                                <input type="hidden" name="articleId" value=<%= article._doc._id %> >
+                                <button class="btn btn-link" type="submit"><i class="fas fa-angle-double-right text-info fa-2x"></i></button>
+                            </form>
+                        </div>
+                    </div>  
+                    </div>
+                </li>
+            <% }) %> 
+        </ul> 
+    <% } %> 
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+</body>
+</html>
