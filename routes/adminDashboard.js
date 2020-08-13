@@ -5,6 +5,8 @@ const router = express.Router();
 const multer = require('multer');
 const fs = require('fs');
 
+const bloggerInfoRouter = require("./bloggerInfo");
+
 //multer initialization
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -44,13 +46,14 @@ router.get('/', async (req, res) => {
     
 });
 
+//logout router
+router.get('/logout', (req, res) => {
+    res.clearCookie('user_sid');
+    res.redirect('/users/login');
+});
 
 
-
-
-
-
-
+router.use("/bloggerInfo", bloggerInfoRouter);
 
 
 

@@ -104,12 +104,13 @@
           <div class="d-flex justify-content-between">
             <h5><%= blogger._doc.email %> </h5>
             <div>
-              <i class="fas fa-user-times text-danger fa-2x p-1" title="Delete" data-toggle="modal" data-target="#deleteUserModal"></i>
-              <i class="far fa-newspaper text-info fa-2x p-1" title="Articles"></i>
-              <i class="fas fa-key text-primary fa-2x p-1" title="Password = mobileNumber" data-toggle="modal" data-target="#recoverPassModal"></i>
+              <form action="/users/adminDashboard/bloggerInfo" method="POST">
+                <input type="hidden" name="bloggerId" value=<%= blogger._doc._id %> >
+                <button class="btn btn-link" type="submit"><i class="fas fa-angle-double-right text-info fa-2x"></i></button>
+              </form>
             </div>
           </div>
-          <small> <%= blogger._doc.firstName %> <%= blogger._doc.lastName %> </small>
+          <b><span> <%= blogger._doc.firstName %> <%= blogger._doc.lastName %> </span></b>
           <% Articles.forEach((article) => { %>
             <% if(article._doc.author.toString() == blogger._doc._id.toString()) { %> 
               <small>  |  <%= article._doc.title %> </small>
@@ -137,7 +138,9 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-danger">Logout</button>
+                    <form action="/users/adminDashboard/logout">
+                      <button type="submit" class="btn btn-danger">Logout</button>
+                    </form>
                 </div>
                 </div>
             </div>
@@ -178,7 +181,7 @@
 
 
     <!-- ================================
-            Reover User Password Modal 
+            Recover User Password Modal 
          ================================ -->
         <div class="modal fade" id="recoverPassModal" tabindex="-1" role="dialog" aria-labelledby="recoverPassModalLabel" aria-hidden="true">
           <div class="modal-dialog">
