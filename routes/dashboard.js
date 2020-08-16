@@ -324,7 +324,8 @@ router.post("/articleInfo", async (req, res) => {
         // console.log(ARTICLE);
         res.render("pages/articleInfo", {ARTICLE});  
     } catch (err) {
-
+        console.log("something went wrong when finding an article to show article info");
+        res.redirect("/users/dashboard");
     }
 });
 
