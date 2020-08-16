@@ -1,5 +1,4 @@
 //TODO: Sort Articles
-//TODO: Edit Articles
 //TODO: Mobile number length condition (length > 8) => edit information
 
 const express = require("express");
@@ -312,6 +311,93 @@ router.post("/contactAdmin", (req, res) => {
         };
     });
     
+});
+
+router.get('/articleInfo', (req, res) => {
+    res.redirect('/users/dashboard');
+});
+
+router.post("/articleInfo", async (req, res) => {
+    const {articleId} = req.body;
+    try {
+        const ARTICLE = await Article.findById(articleId);
+        // console.log(ARTICLE);
+        res.render("pages/articleInfo", {ARTICLE});  
+    } catch (err) {
+
+    }
+});
+
+router.get('/editArticle', (req, res) => {
+    res.redirect('/users/dashboard');
+});
+
+router.post("/editArticle", async (req, res) => {
+    const {articleTitle, articleText, articleId} = req.body;
+
+    const USER = req.session.user;
+    let ARTICLE = req.session.article;
+
+    let errors = [];
+
+    const textLength = articleText.split(' ').length;    
+
+    // get first 50 WORDS and join them with SPACE
+    const summaryGenerator = (str) => str.split(/\s+/).slice(0,90).join(" ") + " . . . ";
+
+    if(!articleTitle || !articleText) {
+        errors.push({color: "alert-warning", msg: "Fill all article fields"});
+    }
+    if (textLength < 100) {
+        errors.push({color: "alert-warning", msg: "Article Text is too short"});
+    }
+
+    if (errors.length > 0) {
+        res.render('pages/dashboard', {USER, errors, ARTICLE});
+    } else {
+        let summary = summaryGenerator(articleText);
+        try {
+            await Article.findByIdAndUpdate(articleId, {summary: summary, title: articleTitle, text: articleText});
+            errors.push({color: "alert-success", msg: "Article edited successfully"})
+            ARTICLE = await Article.find({author: USER._id});
+            req.session.article = ARTICLE;
+            res.render("pages/dashboard", {USER, ARTICLE, errors});
+        } catch (err) {
+            errors.push({color: 'alert-danger', msg: "Something went wrong when updating the article"});
+            res.render("pages/dashboard", {USER, ARTICLE, errors});
+        }
+    }
+});
+
+router.get('/deleteArticle', (req, res) => {
+    res.redirect('/users/dashboard');
+});
+
+router.post("/deleteArticle", async (req, res) => {
+    const {articleId} = req.body;
+    console.log(articleId);
+    const USER = req.session.user;
+    let ARTICLE = req.session.article;
+
+    let errors = [];
+
+    try {
+        await Article.findByIdAndDelete(articleId)
+        .then(async () => {
+            try {
+                ARTICLE = await Article.find({author: USER._id});
+                req.session.article = ARTICLE;
+                errors.push({color: "alert-success", msg: "Article Deleted successfully"})
+                res.render('pages/dashboard', {USER, errors, ARTICLE});
+            } catch (err) {
+                errors.push({color: "alert-danger", msg: "Something went wrong when setting article session. BUT article has been deleted from the database!"});
+                res.render('pages/dashboard', {USER, errors, ARTICLE});
+            }
+        });
+    } catch (err) {
+        errors.push({color: "alert-danger", msg: "Something went wrong when deleting article"});
+        res.render('pages/dashboard', {USER, errors, ARTICLE});
+    }
 });
 
 module.exports = router;
