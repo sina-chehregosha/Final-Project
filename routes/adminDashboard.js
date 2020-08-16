@@ -1,5 +1,3 @@
-//TODO: Delete admin messages button
-
 const express = require("express");
 const router = express.Router();
 const multer = require('multer');
@@ -50,6 +48,24 @@ router.get('/', async (req, res) => {
 router.get('/logout', (req, res) => {
     res.clearCookie('user_sid');
     res.redirect('/users/login');
+});
+
+router.get("/deleteMessage", (req, res) => {
+    res.redirect('/users/adminDashboard');
+});
+
+router.post("/deleteMessage", async (req, res) => {
+    const {messageId} = req.body;
+
+    try {
+        await Article.findByIdAndDelete(messageId);
+        res.redirect('/users/adminDashboard');
+        // FIXME: Show deleted message after delete fro,m database
+    } catch (err) {
+        console.log("Something went wrong when deleting a message. Error: ", err);
+        res.redirect('/users/adminDashboard');
+    }
+    
 });
 
 

@@ -63,6 +63,7 @@
     <hr class="my-5">
 
     <!-- Bloggers' Messages -->
+
     <div class="row">
       <div class="col-2"></div>
       <h1 class="text-center my-3 col-8">Bloggers' Messages </h1>
@@ -77,16 +78,25 @@
             <div class="d-flex justify-content-between">
               <h5 class="mb-1"> <strong><%= msg.title %></strong>  </h5>
               
-              <small> <%= msg.date %> </small>
+              <small> <%= msg.date %></small>
             </div>
+
             <h6><%= msg.summary %> </h6>
             <div class="ml-3" style="text-align: justify; height: 50px; overflow-y: auto;">
               <span class="ml-3"><%= msg.text %> </span>
             </div>
           </div>
+          <div>
+            <form action="/users/adminDashboard/deleteMessage" method="POST">
+              <input type="hidden" name="messageId" value=<%= msg._id %> >
+              <button type="submit" class="btn btn-link">
+                <i class="far fa-minus-square text-danger fa-2x"></i>
+              </button>
+            </form>
+          </div>
         </li>
+        
       <% }) %> 
-      
 
     </ul> <!-- /Bloggers' Messages -->
     
