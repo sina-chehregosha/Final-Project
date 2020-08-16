@@ -1,6 +1,3 @@
-// TODO: Delete User
-
-
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs")
@@ -98,14 +95,13 @@ router.post("/deleteUser", async (req, res) => {
     try {
         await User.findByIdAndDelete(bloggerId)
         .then(async () => {
-            console.log(`Blogger Deleted Successfully`);
             await Article.deleteMany({author: bloggerId}).then(() => {
-                console.log(`Blogger's articles deleted successfully`);
                 res.redirect("/users/adminDashboard");
             })
         });
     } catch (err) {
         console.log("error while deleting the user! Error: ", err);
+        res.redirect("/users/adminDashboard");
     }
 });
 
