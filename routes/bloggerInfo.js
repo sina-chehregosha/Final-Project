@@ -1,13 +1,13 @@
-// TODO: Reset Password
 // TODO: Delete User
 
 
 const express = require("express");
 const router = express.Router();
+const bcrypt = require("bcryptjs")
 
 //User Model
 const User = require("../models/User");
-const { findByIdAndUpdate, find } = require("../models/User");
+const { findByIdAndUpdate, find, findByIdAndDelete } = require("../models/User");
 
 //Article Model
 const Article = require('../models/Article');
@@ -33,7 +33,7 @@ router.post("/", async (req,res) => {
 
 router.get("/articleInfo", (req,res) => {
     res.redirect("/users/adminDashboard");
-})
+});
 
 router.post("/articleInfo", async (req, res) => {
 
@@ -50,10 +50,64 @@ router.post("/articleInfo", async (req, res) => {
 
 });
 
+router.get("/deleteArticle", (req,res) => {
+    res.redirect("/users/adminDashboard");
+});
+
 router.post("/deleteArticle", async (req, res) => {
     const {articleId} = req.body;
     await Article.findByIdAndDelete(articleId);
     res.redirect("/users/adminDashboard");
 });
+
+router.get("/resetPassword", (req,res) => {
+    res.redirect("/users/adminDashboard");
+});
+
+router.post("/resetPassword", async (req, res) => {
+    const {bloggerId} = req.body;
+    try {
+        let BLOGGER = await User.findById(bloggerId);
+        const Mobile = BLOGGER._doc.mobileNumber;
+        await bcrypt.genSalt(10, (err, salt) => {
+            bcrypt.hash(Mobile, salt, async (err, hashed) => {
+                if (err) throw err;
+                await User.findByIdAndUpdate(bloggerId, {password: hashed})
+                .then(()=> {
+                    console.log(`Password Reset Done: ${BLOGGER._doc.email}`);
+                    res.redirect("/users/adminDashboard");
+                }).catch(err => {
+                    throw err
+                })
+            })
+        })
+    
+    } catch(err) {
+        console.log(err);
+        res.redirect("/users/adminDashboard");
+    }
+});
+
+router.get("/deleteUser", (req,res) => {
+    res.redirect("/users/adminDashboard");
+});
+
+router.post("/deleteUser", async (req, res) => {
+    const {bloggerId} = req.body;
+    console.log(bloggerId);
+    try {
+        await User.findByIdAndDelete(bloggerId)
+        .then(async () => {
+            console.log(`Blogger Deleted Successfully`);
+            await Article.deleteMany({author: bloggerId}).then(() => {
+                console.log(`Blogger's articles deleted successfully`);
+                res.redirect("/users/adminDashboard");
+            })
+        });
+    } catch (err) {
+        console.log("error while deleting the user! Error: ", err);
+    }
+});
+
 
 module.exports = router;

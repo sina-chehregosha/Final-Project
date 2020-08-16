@@ -17,7 +17,7 @@
         <h5 class="pt-2" style="cursor: pointer;"><a class="text-light" href="#Home"> > Blogger Info</a></h5>
     </nav> <!-- /navbar -->
 
-    <div class="col-sm-12 col-md-4 mt-5 mx-auto">
+    <div class="col-sm-12 col-md-8 col-lg-6 mt-5 mx-auto">
         <ul class="list-group list-group-flush">
             <li class="list-group-item list-group-item-success">User Info:</li>
             <li class="list-group-item text-capitalize">First Name: <%= BLOGGER._doc.firstName %> </li>
@@ -26,8 +26,14 @@
             <li class="list-group-item">Mobile Number: <%= BLOGGER._doc.mobileNumber %></li>
         </ul>
         <div class="btn-group w-100" role="group" aria-label="Basic example">
-            <button type="button" class="btn btn-warning w-75">Reset User's Password</button>
-            <button type="button" class="btn btn-secondary btn-danger w-25">Delete User</button>
+            <form class="col-8 p-0" action="/users/adminDashboard/bloggerInfo/resetPassword" method="POST">
+                <input type="hidden" name="bloggerId" value=<%= BLOGGER._doc._id %> >
+                <button type="submit" class="btn btn-warning w-100">Reset User's Password</button>            
+            </form>
+            <form class="col p-0" action="/users/adminDashboard/bloggerInfo/deleteUser" method="POST">
+                <input type="hidden" name="bloggerId" value=<%= BLOGGER._doc._id %> >
+                <button type="submit" class="btn btn-secondary btn-danger w-100">Delete User</button>
+            </form>
         </div>
     </div>
 

@@ -1,4 +1,4 @@
-//TODO: Reset password button
+//TODO: Delete admin messages button
 
 const express = require("express");
 const router = express.Router();

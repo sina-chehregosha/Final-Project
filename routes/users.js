@@ -1,3 +1,5 @@
+//TODO: Mobile number's condition (length > 8) => register
+
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
@@ -133,8 +135,6 @@ router.post("/register", (req, res) => {
             //   if (err) return res.status(500).send('Something went wrong when saving user');
             //   return res.send(`User ${firstName} created Successfully. \n Email: ${email}`);
             // });
-
-            console.log("test");
 
             //* Hash Password
             bcrypt.genSalt(10, (err, salt) => {
