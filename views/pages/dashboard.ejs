@@ -120,26 +120,28 @@
     </div>
 
     <% if (ARTICLE) { %>
+      <ul class="list-group list-group-flush" style="height: 150px;">
       <% ARTICLE.forEach((article) => { %>
-        <ul class="list-group list-group-flush" style="height: 200px;">
         <li class="list-group-item my-2 d-flex">
           <div class="col-1 d-inline-block articleImg"></div>
-          <div class="col d-inline-block">
+          <div class="col-10 d-inline-block">
             <div class="d-flex justify-content-between">
               <h5 class="mb-1"> <%= article.title %> </h5>
-              <div>
-                  <small> <%= article.date %> </small>
-                  <i class="fa fa-trash-o text-danger mx-1" aria-hidden="true" title="Delete Article" style="font-size: 20px; cursor: pointer;"></i>
-                  <i class="fa fa-pencil-square-o text-warning mx-1" aria-hidden="true" title="Edit Article" style="font-size: 20px; cursor: pointer;"></i>
-                  <i class="fa fa-envelope-open-o text-info" aria-hidden="true" title="Open Article" style="font-size: 20px; cursor: pointer;"></i>
-              </div>
+              <small> <%= article.date %> </small>
             </div>
-            <div class="ml-3" style="text-align: justify; height: 140px; overflow-y: auto;">
+            <div class="ml-3" style="text-align: justify; height: 100px; overflow-y: auto;">
               <span class="ml-3"><%= article.summary %></span>
             </div>
           </div>
+          <div class="col d-flex align-items-center">
+            <form action="/users/dashboard/articleInfo" method="POST">
+              <input type="hidden" name="articleId" value=<%= article._id %> >
+              <button class="btn btn-link" type="submit"><i class="fas fa-angle-double-right text-info fa-2x"></i></button>
+            </form>
+          </div>
         </li>
       <% }) %> 
+      </ul>
     <% } %>  <!-- /Articles -->
 
 
@@ -361,8 +363,8 @@
 
 <style>
   .articleImg {
-    height: 169px;
-    width: 119px;
+    height: 150px;
+    width: 106px;
     background: url('/images/sample_img.png') no-repeat center; 
     background-size: contain;
     background-color: rgba(226, 226, 226, 0.486);

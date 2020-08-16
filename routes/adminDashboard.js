@@ -60,7 +60,7 @@ router.post("/deleteMessage", async (req, res) => {
     try {
         await Article.findByIdAndDelete(messageId);
         res.redirect('/users/adminDashboard');
-        // FIXME: Show deleted message after delete fro,m database
+        // FIXME: Show deleted message after delete from database
     } catch (err) {
         console.log("Something went wrong when deleting a message. Error: ", err);
         res.redirect('/users/adminDashboard');
