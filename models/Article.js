@@ -6,7 +6,7 @@ const ArticleSchema = new Schema ({
     title: {
         type: String,
         required: true,
-        maxlength: 50,
+        maxlength: 200,
         trim: true
     },
     summary: {

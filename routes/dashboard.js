@@ -1,4 +1,4 @@
-//TODO: Sort Articles
+//TODO: SEARCH
 //TODO: Mobile number length condition (length > 8) => edit information
 
 const express = require("express");
@@ -74,7 +74,7 @@ router.post('/editInfo', async (req, res) => {
             else updated.email = email;
         }
 
-        if (mobileNumber !== USER.mobileNumber && mobileNumber !== "") {
+        if (mobileNumber !== USER.mobileNumber && mobileNumber !== "" && mobileNumber.length > 7) {
             //In ES6 you can write findOne({email}) instead of fondOne({email: email});
             let userExist = await User.findOne({mobileNumber});
             
@@ -97,8 +97,6 @@ router.post('/editInfo', async (req, res) => {
         res.render('pages/dashboard', {USER, errors, ARTICLE});
     }
 });
-
-
 
 router.get('/editPass', (req, res) => {
     res.redirect('/users/dashboard');
@@ -164,7 +162,6 @@ router.post('/editPass', (req, res) => {
     };
 });
 
-
 //logout router
 router.get('/logout', (req, res) => {
     res.clearCookie('user_sid');
@@ -175,6 +172,7 @@ router.get("/writeArticle", (req, res) => {
     res.redirect('/users/dashboard');
 });
 
+// Write Article Handler
 router.post("/writeArticle", async (req, res) => {
     
     const title = req.body.articleTitle;
@@ -209,7 +207,6 @@ router.post("/writeArticle", async (req, res) => {
             text,
             author: USER._id
         });
-        // console.log("NEW_ARTICLE", NEW_ARTICLE)
         
         NEW_ARTICLE.save()
         .then(async (article) => {
@@ -256,7 +253,7 @@ router.post("/editAvatar", (req, res) => {
     const upload = uploadAvatar.single('avatar');
     upload(req, res, (err) => {
         if (err) errors.push({color: 'alert-danger', msg: 'Something went wrong on uploading avatar'});
-        console.log(req.file);
+        // console.log(req.file);
         User.findByIdAndUpdate(req.session.user._id, {avatar: req.file.filename}, {new: true},
             (err, updatedUser) => {
                 if (err) errors.push({color: 'alert-danger', msg: 'Something went wrong on updating avatar'});
@@ -280,6 +277,7 @@ router.get("/contactAdmin", (req, res) => {
     res.redirect('/users/dashboard');
 });
 
+// Contact Admin Handler
 router.post("/contactAdmin", (req, res) => {
     const {contactFormTitle, contactFormMessage} = req.body;
 
@@ -317,11 +315,11 @@ router.get('/articleInfo', (req, res) => {
     res.redirect('/users/dashboard');
 });
 
+// Article Info page router
 router.post("/articleInfo", async (req, res) => {
     const {articleId} = req.body;
     try {
         const ARTICLE = await Article.findById(articleId);
-        // console.log(ARTICLE);
         res.render("pages/articleInfo", {ARTICLE});  
     } catch (err) {
         console.log("something went wrong when finding an article to show article info");
@@ -333,6 +331,7 @@ router.get('/editArticle', (req, res) => {
     res.redirect('/users/dashboard');
 });
 
+//Edit Article Handler
 router.post("/editArticle", async (req, res) => {
     const {articleTitle, articleText, articleId} = req.body;
 
@@ -374,9 +373,9 @@ router.get('/deleteArticle', (req, res) => {
     res.redirect('/users/dashboard');
 });
 
+// Delete Article Handler
 router.post("/deleteArticle", async (req, res) => {
     const {articleId} = req.body;
-    console.log(articleId);
     const USER = req.session.user;
     let ARTICLE = req.session.article;
 
@@ -400,5 +399,43 @@ router.post("/deleteArticle", async (req, res) => {
         res.render('pages/dashboard', {USER, errors, ARTICLE});
     }
 });
+
+// A-Z sort handler
+router.get("/sortAZ", async (req, res) => {
+    let ARTICLE = req.session.article;
+    console.log(ARTICLE);
+    const USER = req.session.user;
+
+    let errors = [];
+
+    try {
+        ARTICLE = await Article.find({author: USER._id}).sort({title: 'asc'});
+        errors.push({color: 'alert-success', msg: "Articles sorted A-Z successfully"});
+        res.render('pages/dashboard', {USER, errors, ARTICLE});
+    } catch (err) {
+        errors.push({color: 'alert-danger', msg: "Something went wrong when sorting articles A-Z"});
+        res.render('pages/dashboard', {USER, errors, ARTICLE});
+    }
+
+});
+
+//Date sort handler
+router.get("/sortDate", async (req, res) => {
+    let ARTICLE = req.session.article;
+    console.log(ARTICLE);
+    const USER = req.session.user;
+    let errors = [];
+
+    try {
+        ARTICLE = await Article.find({author: USER._id}).sort({date: 'desc'});
+        errors.push({color: 'alert-success', msg: "Articles sorted by date successfully"});
+        res.render('pages/dashboard', {USER, errors, ARTICLE});
+    } catch (err) {
+        errors.push({color: 'alert-danger', msg: "Something went wrong when sorting articles by date"});
+        res.render('pages/dashboard', {USER, errors, ARTICLE});
+    }
+
+});
+
 
 module.exports = router;

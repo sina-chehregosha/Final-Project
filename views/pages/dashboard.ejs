@@ -111,9 +111,11 @@
           Sort Articles
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <form action="" method="POST">
-            <button type="submit" class="dropdown-item" value="sortAZ">A-Z</button>
-            <button type="submit" class="dropdown-item" value="sortDate">Date</button>
+          <form action="/users/dashboard/sortAZ">
+            <button type="submit" class="dropdown-item">A-Z</button>
+          </form>
+          <form action="/users/dashboard/sortDate">
+            <button type="submit" class="dropdown-item">Date</button>
           </form>
         </div>
       </div>
@@ -173,7 +175,7 @@
                             <input type="email" class="form-control" id="email" name="email" value="<%= USER.email %>" required>
                         </div>
                         <div class="form-group">
-                            <label for="mobileNumber">Mobile Number</label>
+                            <label for="mobileNumber">Mobile Number: </label><small class="text-muted ml-3">(should be at least 8 characters)</small>
                             <input type="tel" class="form-control" id="mobileNumber" name="mobileNumber" value="<%= USER.mobileNumber %>" required>
                         </div>
                         <button type="button" class="btn btn-block btn-warning" data-dismiss="modal" data-toggle="modal" data-target="#editPasswordModal">Change Password</button>

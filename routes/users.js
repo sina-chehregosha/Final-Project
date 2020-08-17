@@ -83,8 +83,8 @@ router.post("/register", (req, res) => {
 
   //TODO: Check Password Strength
   //Check password length
-  if (password.length < 8) {
-    errors.push({ msg: "Password should be at least 8 characters" });
+  if (password.length < 8 || mobileNumber.length < 8) {
+    errors.push({ msg: "Password AND Mobile Number should be at least 8 characters" });
   }
 
   //TODO: Check mobile number with regex
