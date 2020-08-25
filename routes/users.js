@@ -1,5 +1,3 @@
-//TODO: Mobile number's condition (length > 8) => register
-
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
@@ -44,7 +42,7 @@ router.get("/register", checkSession , (req, res) => {
 });
 
 //Register Handle
-// TODO: Email authentication
+// NITODO: Email authentication
 router.post("/register", (req, res) => {
   // console.log(req.body);
   //* pull variables out of req.body
@@ -81,13 +79,13 @@ router.post("/register", (req, res) => {
     errors.push({ msg: "Passwords do not match!" });
   }
 
-  //TODO: Check Password Strength
+  // NITODO: Check Password Strength
   //Check password length
   if (password.length < 8 || mobileNumber.length < 8) {
     errors.push({ msg: "Password AND Mobile Number should be at least 8 characters" });
   }
 
-  //TODO: Check mobile number with regex
+  // NITODO: Check mobile number with regex
   
   if (errors.length > 0) {
     res.render("pages/register", {
@@ -147,12 +145,12 @@ router.post("/register", (req, res) => {
                 NEW_USER.save()
                   //redirect to login page
                   .then((user) => {
-                    //TODO: Flash message
+                    //?? Flash message
                     res.redirect("/users/login");
                   })
                   .catch((err) => {
                     console.log(err);
-                    //TODO: Flash message
+                    //?? Flash message
                     res.redirect("/users/register");
                   });
               });
@@ -254,7 +252,6 @@ router.post('/forgetPassword', (req,res) => {
 router.use('/adminDashboard', notLogin, isAdmin, adminDashboardRouter);
 
 router.use('/dashboard', notLogin, dashboardRouter);
-
 
 
 

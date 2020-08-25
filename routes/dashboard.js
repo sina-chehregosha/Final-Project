@@ -1,11 +1,15 @@
 //TODO: SEARCH
-//TODO: Mobile number length condition (length > 8) => edit information
 
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const multer = require('multer');
 const fs = require('fs');
+
+// to avoid DDoS attack on search:
+function escapeRegex(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
 
 //multer initialization
 const storage = multer.diskStorage({
@@ -20,23 +24,71 @@ const storage = multer.diskStorage({
 //multer upload avatar function
 const uploadAvatar = multer({storage: storage});
 
-//TODO: multer upload article function
-
 //User Model
 const User = require("../models/User");
 const { findByIdAndUpdate, find } = require("../models/User");
 
 //Article Model
 const Article = require('../models/Article');
+const { dir } = require("console");
 
-router.get('/', (req, res) => {
-
+router.get('/', async (req, res) => {
+    let ARTICLE = [];
     const USER = req.session.user;
-    const ARTICLE = req.session.article;
-    let errors = [];
+    if (req.query.search) {
+        // to avoid DDoS Attack:
+        const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+        // regex is our searching phrase now
+        console.log("Search: ", regex);
+        try {
+            let userTemp; // temporary variable for users
+            let articleTemp; // temporary variable for articles
+            let usersIds = [];
 
-    res.render('pages/dashboard', {USER, errors, ARTICLE});
-    
+            // search in users
+            userTemp = await User.find({$or: [{firstName: regex}, {lastName: regex}, {email: regex}]});
+
+            // if some user matched => show matched users' articles
+            if (userTemp.length > 0) {
+                for (let i=0; i<userTemp.length; i++) {
+                    // push model id's into usersIds to find their articles
+                    await usersIds.push(userTemp[i]._doc._id);
+                }
+                for (let i=0; i<usersIds.length; i++) {
+                    // find articles of found users
+                    articleTemp = await Article.find({author: usersIds[i]});
+                    for (let n=0; n<articleTemp.length; n++) {
+                        ARTICLE.push(articleTemp[n]);
+                    }
+                }
+                console.log(ARTICLE);
+                articleTemp = []; // clear it to use in article search
+            }
+
+            // FixMe: Search in article text does not work
+            // search in Articles
+            articleTemp = Article.find({$text: {$search: regex, $caseSensitive: false}});
+            console.log(articleTemp);
+            
+            let errors = [];
+            res.render('pages/dashboard', {USER, errors, ARTICLE});        
+        } catch (err) {
+            let errors = [{color: "alert-warning", msg: "Sorry! Something went wrong on searching"}];
+            ARTICLE = req.session.article;
+            res.render("pages/dashboard", {USER, ARTICLE, errors});
+        }
+    } else {
+        ARTICLE = req.session.article;
+        let errors = [];
+        res.render('pages/dashboard', {USER, errors, ARTICLE});    
+    }
+
+    // const USER = req.session.user;
+    // const ARTICLE = req.session.article;
+    // console.log(ARTICLE);
+    // let errors = [];
+
+    // res.render('pages/dashboard', {USER, errors, ARTICLE});    
 });
 
 router.get('/editInfo', (req, res) => {
@@ -436,6 +488,5 @@ router.get("/sortDate", async (req, res) => {
     }
 
 });
-
 
 module.exports = router;

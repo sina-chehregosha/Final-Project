@@ -32,10 +32,8 @@ router.get('/', async (req, res) => {
 
     try {
         const Bloggers = await User.find({role:'blogger'});
-        // console.log("bloggers", typeof Bloggers, Bloggers);
-        // TODO: How to find just bloggers' articles?
+        //?? How to find just bloggers' articles?
         const Articles = await Article.find({});
-        // console.log("Articles 0 author", Articles[0]._doc.author.toString(), typeof Articles[0]._doc.author)
         
         res.render('pages/adminDashboard', {ADMIN, Messages, Bloggers, Articles});
     } catch(err) {
